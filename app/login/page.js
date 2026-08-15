@@ -31,7 +31,7 @@ export default function Login() {
     }
 
     setMensagem("✅ Login realizado! Redirecionando...");
-    setTimeout(() => router.push("/"), 1000);
+    setTimeout(() => router.push("/app"), 1000);
   }
 
   async function fazerCadastro(e) {
@@ -52,7 +52,7 @@ export default function Login() {
     }
 
     setMensagem("✅ Conta criada! Redirecionando...");
-    setTimeout(() => router.push("/"), 1000);
+    setTimeout(() => router.push("/app"), 1000);
   }
 
   return (

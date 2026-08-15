@@ -88,7 +88,7 @@ export default function Orcamentos() {
             <h1 className="text-3xl font-bold text-gray-800">Meus Orçamentos</h1>
             <p className="text-gray-500 mt-1">Histórico de orçamentos gerados</p>
           </div>
-          <Link href="/" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg transition-colors">
+          <Link href="/app" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg transition-colors">
             + Novo Orçamento
           </Link>
         </div>
@@ -102,7 +102,7 @@ export default function Orcamentos() {
         {!carregando && orcamentos.length === 0 && (
           <div className="bg-white rounded-2xl shadow p-8 text-center text-gray-500">
             <p className="mb-4">Você ainda não criou nenhum orçamento.</p>
-            <Link href="/" className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+            <Link href="/app" className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
               Criar primeiro orçamento
             </Link>
           </div>
