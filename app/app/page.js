@@ -1,15 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { jsPDF } from "jspdf";
 import { supabase } from "@/lib/supabase";
 
 export default function Home() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const idEdicao = searchParams.get("editar");
 
   const [usuario, setUsuario] = useState(null);
   const [verificandoLogin, setVerificandoLogin] = useState(true);
+  const [modoEdicao, setModoEdicao] = useState(false);
 
   const [empresa, setEmpresa] = useState("");
   const [telefone, setTelefone] = useState("");
@@ -22,7 +25,6 @@ export default function Home() {
   const [salvando, setSalvando] = useState(false);
   const [mensagem, setMensagem] = useState("");
 
-  // Verifica se o usuário está logado quando a página abre
   useEffect(() => {
     verificarLogin();
   }, []);
@@ -37,6 +39,33 @@ export default function Home() {
 
     setUsuario(user);
     setVerificandoLogin(false);
+
+    // Se veio ?editar=ID, carrega dados do orçamento
+    if (idEdicao) {
+      carregarOrcamento(idEdicao);
+    }
+  }
+
+  async function carregarOrcamento(id) {
+    const { data, error } = await supabase
+      .from("orcamentos")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (error) {
+      setMensagem("❌ Erro ao carregar orçamento");
+      return;
+    }
+
+    if (data) {
+      setEmpresa(data.empresa || "");
+      setTelefone(data.telefone || "");
+      setCliente(data.cliente || "");
+      setEmail(data.email || "");
+      setItens(data.itens || [{ produto: "", quantidade: "", valor: "" }]);
+      setModoEdicao(true);
+    }
   }
 
   async function sair() {
@@ -71,33 +100,50 @@ export default function Home() {
     setSalvando(true);
     setMensagem("");
 
-    const { data, error } = await supabase
-      .from("orcamentos")
-      .insert([
-        {
-          empresa: empresa,
-          telefone: telefone,
-          cliente: cliente,
-          email: email,
-          itens: itens,
-          total: totalGeral,
-          user_id: usuario.id  // ← IMPORTANTE! Salva o ID do usuário logado
-        }
-      ]);
+    const dadosOrcamento = {
+      empresa: empresa,
+      telefone: telefone,
+      cliente: cliente,
+      email: email,
+      itens: itens,
+      total: totalGeral,
+      user_id: usuario.id
+    };
+
+    let resultado;
+
+    if (modoEdicao && idEdicao) {
+      // ATUALIZAR orçamento existente
+      resultado = await supabase
+        .from("orcamentos")
+        .update(dadosOrcamento)
+        .eq("id", idEdicao);
+    } else {
+      // CRIAR novo orçamento
+      resultado = await supabase
+        .from("orcamentos")
+        .insert([dadosOrcamento]);
+    }
 
     setSalvando(false);
 
-    if (error) {
-      setMensagem("❌ Erro ao salvar: " + error.message);
-      console.error(error);
+    if (resultado.error) {
+      setMensagem("❌ Erro ao salvar: " + resultado.error.message);
+      console.error(resultado.error);
       return;
     }
 
-    setMensagem("✅ Orçamento salvo com sucesso!");
+    setMensagem(modoEdicao ? "✅ Orçamento atualizado!" : "✅ Orçamento salvo!");
     setOrcamentoGerado(true);
   }
 
   function novoOrcamento() {
+    // Se estava editando, volta para a lista de orçamentos
+    if (modoEdicao) {
+      router.push("/orcamentos");
+      return;
+    }
+
     setOrcamentoGerado(false);
     setMensagem("");
     setEmpresa("");
@@ -179,7 +225,6 @@ export default function Home() {
     doc.save(`orcamento-${cliente || "cliente"}.pdf`);
   }
 
-  // Enquanto verifica login, mostra tela de carregamento
   if (verificandoLogin) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -192,15 +237,12 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-2xl mx-auto">
 
-        {/* Barra superior com usuário e sair */}
+        {/* Barra superior */}
         <div className="flex justify-between items-center mb-4 text-sm">
           <span className="text-gray-600">
             👤 {usuario?.email}
           </span>
-          <button
-            onClick={sair}
-            className="text-red-600 hover:text-red-800 font-medium"
-          >
+          <button onClick={sair} className="text-red-600 hover:text-red-800 font-medium">
             Sair
           </button>
         </div>
@@ -208,15 +250,16 @@ export default function Home() {
         <div className="bg-white rounded-2xl shadow-lg p-8">
 
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-800">OrçaFácil</h1>
+            <h1 className="text-3xl font-bold text-gray-800">
+              {modoEdicao ? "Editar Orçamento" : "OrçaFácil"}
+            </h1>
             <p className="text-gray-500 mt-2">
-              Crie orçamentos profissionais em menos de 1 minuto
+              {modoEdicao
+                ? "Faça as alterações necessárias e salve"
+                : "Crie orçamentos profissionais em menos de 1 minuto"}
             </p>
-            <a
-              href="/orcamentos"
-              className="inline-block mt-4 text-blue-600 hover:text-blue-800 text-sm font-medium"
-            >
-              Ver meus orçamentos →
+            <a href="/orcamentos" className="inline-block mt-4 text-blue-600 hover:text-blue-800 text-sm font-medium">
+              ← Ver meus orçamentos
             </a>
           </div>
 
@@ -266,7 +309,11 @@ export default function Home() {
               )}
 
               <button type="submit" disabled={salvando} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors disabled:opacity-50">
-                {salvando ? "Salvando..." : "Gerar Orçamento"}
+                {salvando
+                  ? "Salvando..."
+                  : modoEdicao
+                    ? "Salvar Alterações"
+                    : "Gerar Orçamento"}
               </button>
             </form>
           )}
@@ -321,7 +368,7 @@ export default function Home() {
                   📄 Baixar PDF
                 </button>
                 <button onClick={novoOrcamento} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 rounded-lg transition-colors">
-                  Novo Orçamento
+                  {modoEdicao ? "Voltar" : "Novo Orçamento"}
                 </button>
               </div>
             </div>
