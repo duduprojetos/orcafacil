@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { jsPDF } from "jspdf";
 import { supabase } from "@/lib/supabase";
 
-export default function Home() {
+// Componente principal que USA useSearchParams
+function HomeContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const idEdicao = searchParams.get("editar");
@@ -40,7 +41,6 @@ export default function Home() {
     setUsuario(user);
     setVerificandoLogin(false);
 
-    // Se veio ?editar=ID, carrega dados do orçamento
     if (idEdicao) {
       carregarOrcamento(idEdicao);
     }
@@ -113,13 +113,11 @@ export default function Home() {
     let resultado;
 
     if (modoEdicao && idEdicao) {
-      // ATUALIZAR orçamento existente
       resultado = await supabase
         .from("orcamentos")
         .update(dadosOrcamento)
         .eq("id", idEdicao);
     } else {
-      // CRIAR novo orçamento
       resultado = await supabase
         .from("orcamentos")
         .insert([dadosOrcamento]);
@@ -138,7 +136,6 @@ export default function Home() {
   }
 
   function novoOrcamento() {
-    // Se estava editando, volta para a lista de orçamentos
     if (modoEdicao) {
       router.push("/orcamentos");
       return;
@@ -237,7 +234,6 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-2xl mx-auto">
 
-        {/* Barra superior */}
         <div className="flex justify-between items-center mb-4 text-sm">
           <span className="text-gray-600">
             👤 {usuario?.email}
@@ -377,5 +373,18 @@ export default function Home() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Componente wrapper com Suspense (obrigatório pro build funcionar)
+export default function Home() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <p className="text-gray-500">Carregando...</p>
+      </div>
+    }>
+      <HomeContent />
+    </Suspense>
   );
 }
