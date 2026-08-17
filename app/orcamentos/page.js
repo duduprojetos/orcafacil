@@ -164,14 +164,22 @@ export default function Orcamentos() {
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-4xl mx-auto">
 
-        <div className="flex justify-between items-center mb-4 text-sm">
-          <span className="text-gray-600">
-            👤 {usuario?.email}
-          </span>
-          <button onClick={sair} className="text-red-600 hover:text-red-800 font-medium">
-            Sair
-          </button>
-        </div>
+       <div className="flex flex-wrap justify-between items-center mb-4 gap-2 text-sm">
+  <span className="text-gray-600">
+    👤 {usuario?.email}
+  </span>
+  <div className="flex gap-4 items-center">
+    <Link href="/perfil" className="text-gray-700 hover:text-blue-600 font-medium">
+      ⚙️ Perfil
+    </Link>
+    <Link href="/app" className="text-gray-700 hover:text-blue-600 font-medium">
+      ➕ Novo Orçamento
+    </Link>
+    <button onClick={sair} className="text-red-600 hover:text-red-800 font-medium">
+      Sair
+    </button>
+  </div>
+</div>
 
         <div className="flex justify-between items-center mb-6">
           <div>
