@@ -21,6 +21,17 @@ const UNIDADES = [
   { valor: "outro", label: "Outra..." },
 ];
 
+const TEMPLATES_OBSERVACOES = [
+  { label: "💰 50/50", texto: "Pagamento: 50% na aprovação, 50% na entrega." },
+  { label: "💵 À vista", texto: "Pagamento à vista via Pix ou transferência bancária." },
+  { label: "📅 Prazo 5 dias", texto: "Prazo de execução: 5 dias úteis após aprovação." },
+  { label: "📅 Prazo 15 dias", texto: "Prazo de execução: 15 dias úteis após aprovação." },
+  { label: "🛡️ Garantia 90 dias", texto: "Garantia de 90 dias para serviços prestados." },
+  { label: "🚚 Frete incluso", texto: "Valor do frete já incluso no orçamento." },
+  { label: "🔧 Material incluso", texto: "Material e mão de obra inclusos no valor apresentado." },
+  { label: "❌ Sem material", texto: "Material não incluso. Fica por conta do cliente." },
+];
+
 function calcularValidadePadrao() {
   const hoje = new Date();
   hoje.setDate(hoje.getDate() + 30);
@@ -228,6 +239,11 @@ function HomeContent() {
     } catch (err) {
       alert("Erro ao copiar. Copie manualmente: " + link);
     }
+  }
+
+  function adicionarTemplate(texto) {
+    const novoTexto = observacoes ? `${observacoes}\n${texto}` : texto;
+    setObservacoes(novoTexto.slice(0, 500));
   }
 
   function enviarWhatsApp() {
@@ -721,6 +737,7 @@ function HomeContent() {
                 <p className="text-xs text-gray-500 mt-1">💡 Padrão de 30 dias. Você pode alterar.</p>
               </div>
 
+              {/* OBSERVAÇÕES COM TEMPLATES */}
               <div>
                 <div className="flex justify-between items-center mb-3">
                   <h2 className="text-lg font-semibold text-gray-700">
@@ -728,7 +745,39 @@ function HomeContent() {
                   </h2>
                   <span className="text-xs text-gray-400">{observacoes.length}/500</span>
                 </div>
-                <textarea placeholder="Ex: 50% na aprovação, 50% na entrega | Prazo: 5 dias úteis" value={observacoes} onChange={(e) => setObservacoes(e.target.value.slice(0, 500))} rows={4} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" />
+
+                <div className="mb-3">
+                  <p className="text-xs text-gray-500 mb-2">✨ Clique para adicionar rapidamente:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {TEMPLATES_OBSERVACOES.map((template, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        onClick={() => adicionarTemplate(template.texto)}
+                        className="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 font-medium px-3 py-1.5 rounded-full transition-colors"
+                      >
+                        {template.label}
+                      </button>
+                    ))}
+                    {observacoes && (
+                      <button
+                        type="button"
+                        onClick={() => setObservacoes("")}
+                        className="text-xs bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 font-medium px-3 py-1.5 rounded-full transition-colors"
+                      >
+                        🗑️ Limpar
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                <textarea
+                  placeholder="Ex: 50% na aprovação, 50% na entrega | Prazo: 5 dias úteis"
+                  value={observacoes}
+                  onChange={(e) => setObservacoes(e.target.value.slice(0, 500))}
+                  rows={4}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                />
                 <p className="text-xs text-gray-500 mt-1">💡 Aparecerá no PDF do orçamento</p>
               </div>
 
@@ -813,10 +862,7 @@ function HomeContent() {
 
               {mensagem && <div className="text-center text-sm py-2">{mensagem}</div>}
 
-              {/* BOTÕES DE AÇÃO */}
               <div className="space-y-3">
-
-                {/* Link público em destaque */}
                 {tokenPublico && (
                   <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-200 rounded-xl p-4">
                     <p className="text-xs text-gray-600 uppercase font-semibold mb-2">🔗 Link para o cliente aprovar</p>
