@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
+import Header from "../components/Header";
 
 export default function Orcamentos() {
   const router = useRouter();
@@ -87,11 +88,22 @@ export default function Orcamentos() {
       telefone: orcamento.telefone,
       cliente: orcamento.cliente + " (cópia)",
       email: orcamento.email,
+      cliente_telefone: orcamento.cliente_telefone,
+      cliente_documento: orcamento.cliente_documento,
+      cliente_endereco: orcamento.cliente_endereco,
       itens: orcamento.itens,
       total: orcamento.total,
+      observacoes: orcamento.observacoes,
+      validade: orcamento.validade,
+      desconto_tipo: orcamento.desconto_tipo,
+      desconto_valor: orcamento.desconto_valor,
       user_id: usuario.id,
       status: "pendente"
     };
+
+    // Busca próximo número
+    const { data: numData } = await supabase.rpc("proximo_numero_orcamento", { uid: usuario.id });
+    if (numData) novoOrcamento.numero_orcamento = numData;
 
     const { data, error } = await supabase
       .from("orcamentos")
@@ -110,11 +122,6 @@ export default function Orcamentos() {
 
   function editarOrcamento(id) {
     router.push(`/app?editar=${id}`);
-  }
-
-  async function sair() {
-    await supabase.auth.signOut();
-    router.push("/login");
   }
 
   function formatarData(dataStr) {
@@ -140,7 +147,6 @@ export default function Orcamentos() {
     }
   };
 
-  // Filtrar orçamentos por STATUS e BUSCA
   const orcamentosFiltrados = orcamentos.filter((o) => {
     const statusOk = filtroStatus === "todos" || (o.status || "pendente") === filtroStatus;
 
@@ -164,23 +170,7 @@ export default function Orcamentos() {
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-4xl mx-auto">
 
-       <div className="flex flex-wrap justify-between items-center mb-4 gap-2 text-sm">
-  <span className="text-gray-600">
-    👤 {usuario?.email}
-  </span>
-  <div className="flex gap-4 items-center">
-    <Link href="/dashboard" className="text-gray-700 hover:text-blue-600 font-medium">📊 Dashboard</Link>
-    <Link href="/perfil" className="text-gray-700 hover:text-blue-600 font-medium">
-      ⚙️ Perfil
-    </Link>
-    <Link href="/app" className="text-gray-700 hover:text-blue-600 font-medium">
-      ➕ Novo Orçamento
-    </Link>
-    <button onClick={sair} className="text-red-600 hover:text-red-800 font-medium">
-      Sair
-    </button>
-  </div>
-</div>
+        <Header usuario={usuario} paginaAtiva="orcamentos" />
 
         <div className="flex justify-between items-center mb-6">
           <div>
@@ -289,7 +279,9 @@ export default function Orcamentos() {
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div className="flex-1 w-full">
                       <div className="flex items-center gap-2 mb-2 flex-wrap">
-                        <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">#{orc.id}</span>
+                        <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
+                          #{String(orc.numero_orcamento || 0).padStart(4, "0")}
+                        </span>
                         <span className="text-xs text-gray-400">{formatarData(orc.created_at)}</span>
 
                         <div className="relative">

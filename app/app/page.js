@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { jsPDF } from "jspdf";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
+import Header from "../components/Header";
 
 const UNIDADES = [
   { valor: "un", label: "un (unidade)" },
@@ -170,11 +171,6 @@ function HomeContent() {
       setDescontoValor(data.desconto_valor ? String(data.desconto_valor) : "");
       setModoEdicao(true);
     }
-  }
-
-  async function sair() {
-    await supabase.auth.signOut();
-    router.push("/login");
   }
 
   function atualizarItem(index, campo, valor) {
@@ -583,15 +579,7 @@ function HomeContent() {
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-2xl mx-auto">
 
-        <div className="flex flex-wrap justify-between items-center mb-4 gap-2 text-sm">
-          <span className="text-gray-600">👤 {usuario?.email}</span>
-          <div className="flex gap-4 items-center">
-            <Link href="/dashboard" className="text-gray-700 hover:text-blue-600 font-medium">📊 Dashboard</Link>
-            <Link href="/perfil" className="text-gray-700 hover:text-blue-600 font-medium">⚙️ Perfil</Link>
-            <Link href="/orcamentos" className="text-gray-700 hover:text-blue-600 font-medium">📄 Orçamentos</Link>
-            <button onClick={sair} className="text-red-600 hover:text-red-800 font-medium">Sair</button>
-          </div>
-        </div>
+        <Header usuario={usuario} paginaAtiva="app" />
 
         <div className="bg-white rounded-2xl shadow-lg p-8">
 
@@ -737,7 +725,6 @@ function HomeContent() {
                 <p className="text-xs text-gray-500 mt-1">💡 Padrão de 30 dias. Você pode alterar.</p>
               </div>
 
-              {/* OBSERVAÇÕES COM TEMPLATES */}
               <div>
                 <div className="flex justify-between items-center mb-3">
                   <h2 className="text-lg font-semibold text-gray-700">

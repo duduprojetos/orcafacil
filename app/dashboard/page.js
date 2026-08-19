@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
+import Header from "../components/Header";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -150,16 +151,7 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-6xl mx-auto">
 
-        {/* Barra superior */}
-        <div className="flex flex-wrap justify-between items-center mb-6 gap-2 text-sm">
-          <span className="text-gray-600">👤 {usuario?.email}</span>
-          <div className="flex gap-4 items-center">
-            <Link href="/app" className="text-gray-700 hover:text-blue-600 font-medium">➕ Novo Orçamento</Link>
-            <Link href="/orcamentos" className="text-gray-700 hover:text-blue-600 font-medium">📄 Orçamentos</Link>
-            <Link href="/perfil" className="text-gray-700 hover:text-blue-600 font-medium">⚙️ Perfil</Link>
-            <button onClick={sair} className="text-red-600 hover:text-red-800 font-medium">Sair</button>
-          </div>
-        </div>
+        <Header usuario={usuario} paginaAtiva="dashboard" />
 
         {/* Título */}
         <div className="mb-8">
