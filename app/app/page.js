@@ -237,10 +237,23 @@ function HomeContent() {
     }
   }
 
-  function adicionarTemplate(texto) {
+  function templateEstaAtivo(texto) {
+  return observacoes.includes(texto);
+}
+
+function toggleTemplate(texto) {
+  if (templateEstaAtivo(texto)) {
+    // Remove o template das observações
+    let novoTexto = observacoes.replace(texto, "").trim();
+    // Remove quebras de linha duplicadas
+    novoTexto = novoTexto.replace(/\n\n+/g, "\n");
+    setObservacoes(novoTexto);
+  } else {
+    // Adiciona o template
     const novoTexto = observacoes ? `${observacoes}\n${texto}` : texto;
     setObservacoes(novoTexto.slice(0, 500));
   }
+}
 
   function enviarWhatsApp() {
     if (!clienteTelefone) {
@@ -734,29 +747,36 @@ function HomeContent() {
                 </div>
 
                 <div className="mb-3">
-                  <p className="text-xs text-gray-500 mb-2">✨ Clique para adicionar rapidamente:</p>
-                  <div className="flex flex-wrap gap-2">
-                    {TEMPLATES_OBSERVACOES.map((template, i) => (
-                      <button
-                        key={i}
-                        type="button"
-                        onClick={() => adicionarTemplate(template.texto)}
-                        className="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 font-medium px-3 py-1.5 rounded-full transition-colors"
-                      >
-                        {template.label}
-                      </button>
-                    ))}
-                    {observacoes && (
-                      <button
-                        type="button"
-                        onClick={() => setObservacoes("")}
-                        className="text-xs bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 font-medium px-3 py-1.5 rounded-full transition-colors"
-                      >
-                        🗑️ Limpar
-                      </button>
-                    )}
-                  </div>
-                </div>
+  <p className="text-xs text-gray-500 mb-2">✨ Clique para adicionar/remover:</p>
+  <div className="flex flex-wrap gap-2">
+    {TEMPLATES_OBSERVACOES.map((template, i) => {
+      const ativo = templateEstaAtivo(template.texto);
+      return (
+        <button
+          key={i}
+          type="button"
+          onClick={() => toggleTemplate(template.texto)}
+          className={`text-xs font-medium px-3 py-1.5 rounded-full transition-all border ${
+            ativo
+              ? "bg-green-500 hover:bg-green-600 text-white border-green-500 shadow-md"
+              : "bg-blue-50 hover:bg-blue-100 text-blue-700 border-blue-200"
+          }`}
+        >
+          {ativo && "✓ "}{template.label}
+        </button>
+      );
+    })}
+    {observacoes && (
+      <button
+        type="button"
+        onClick={() => setObservacoes("")}
+        className="text-xs bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 font-medium px-3 py-1.5 rounded-full transition-colors"
+      >
+        🗑️ Limpar tudo
+      </button>
+    )}
+  </div>
+</div>
 
                 <textarea
                   placeholder="Ex: 50% na aprovação, 50% na entrega | Prazo: 5 dias úteis"
