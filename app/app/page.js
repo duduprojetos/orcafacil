@@ -27,7 +27,26 @@ function calcularValidadePadrao() {
   return hoje.toISOString().split("T")[0];
 }
 
-// Converte URL de imagem em Base64 (necessário pro PDF)
+// Formata telefone: (11) 99999-9999
+function formatarTelefone(valor) {
+  const numeros = valor.replace(/\D/g, "").slice(0, 11);
+  if (numeros.length <= 2) return numeros;
+  if (numeros.length <= 6) return `(${numeros.slice(0, 2)}) ${numeros.slice(2)}`;
+  if (numeros.length <= 10) return `(${numeros.slice(0, 2)}) ${numeros.slice(2, 6)}-${numeros.slice(6)}`;
+  return `(${numeros.slice(0, 2)}) ${numeros.slice(2, 7)}-${numeros.slice(7)}`;
+}
+
+// Pega só números do telefone (pra usar no link do WhatsApp)
+function limparTelefone(tel) {
+  if (!tel) return "";
+  const numeros = tel.replace(/\D/g, "");
+  // Adiciona 55 (Brasil) se não tiver
+  if (numeros.length === 11 || numeros.length === 10) {
+    return "55" + numeros;
+  }
+  return numeros;
+}
+
 async function urlParaBase64(url) {
   try {
     const response = await fetch(url);
@@ -55,11 +74,15 @@ function HomeContent() {
   const [perfilCarregado, setPerfilCarregado] = useState(false);
   const [perfilCompleto, setPerfilCompleto] = useState(null);
   const [idOrcamento, setIdOrcamento] = useState(null);
+  const [numeroOrcamento, setNumeroOrcamento] = useState(null);
 
   const [empresa, setEmpresa] = useState("");
   const [telefone, setTelefone] = useState("");
   const [cliente, setCliente] = useState("");
   const [email, setEmail] = useState("");
+  const [clienteTelefone, setClienteTelefone] = useState("");
+  const [clienteDocumento, setClienteDocumento] = useState("");
+  const [clienteEndereco, setClienteEndereco] = useState("");
   const [itens, setItens] = useState([
     { produto: "", descricao: "", quantidade: "", unidade: "un", unidadeCustom: "", valor: "" }
   ]);
@@ -86,7 +109,6 @@ function HomeContent() {
     if (idEdicao) {
       carregarOrcamento(idEdicao);
     }
-    // Sempre carrega o perfil (mesmo em modo edição, pra ter logo/endereço no PDF)
     carregarPerfil(user.id);
   }
 
@@ -95,7 +117,6 @@ function HomeContent() {
     if (error) return;
     if (data) {
       setPerfilCompleto(data);
-      // Só preenche empresa/telefone se NÃO estiver editando
       if (!idEdicao) {
         setEmpresa(data.nome_empresa || "");
         setTelefone(data.telefone || "");
@@ -112,10 +133,14 @@ function HomeContent() {
     }
     if (data) {
       setIdOrcamento(data.id);
+      setNumeroOrcamento(data.numero_orcamento);
       setEmpresa(data.empresa || "");
       setTelefone(data.telefone || "");
       setCliente(data.cliente || "");
       setEmail(data.email || "");
+      setClienteTelefone(data.cliente_telefone || "");
+      setClienteDocumento(data.cliente_documento || "");
+      setClienteEndereco(data.cliente_endereco || "");
 
       const itensNormalizados = (data.itens || []).map(item => ({
         produto: item.produto || "",
@@ -186,6 +211,27 @@ function HomeContent() {
     return String(id).padStart(4, "0");
   }
 
+  // Enviar por WhatsApp
+  function enviarWhatsApp() {
+    if (!clienteTelefone) {
+      alert("⚠️ Preencha o telefone do cliente antes de enviar por WhatsApp!");
+      return;
+    }
+
+    const numeroLimpo = limparTelefone(clienteTelefone);
+    if (numeroLimpo.length < 12) {
+      alert("⚠️ Telefone inválido. Verifique o número.");
+      return;
+    }
+
+    const numOrc = formatarNumeroOrcamento(numeroOrcamento);
+
+    const mensagem = `Olá ${cliente}! 👋\n\nSegue o orçamento #${numOrc} solicitado:\n\n💰 *Total: R$ ${totalGeral.toFixed(2)}*\n📅 Válido até: ${formatarDataBR(validade)}\n\nQualquer dúvida, estou à disposição!\n\n_${empresa}_`;
+
+    const url = `https://wa.me/${numeroLimpo}?text=${encodeURIComponent(mensagem)}`;
+    window.open(url, "_blank");
+  }
+
   const subtotal = itens.reduce((acc, item) => acc + calcularSubtotal(item), 0);
   const descontoNumero = Number(descontoValor) || 0;
   let valorDesconto = 0;
@@ -204,12 +250,30 @@ function HomeContent() {
     setSalvando(true);
     setMensagem("");
 
+    // Buscar próximo número (só pra novos orçamentos)
+    let numeroAtual = numeroOrcamento;
+    if (!modoEdicao) {
+      const { data: numData, error: numError } = await supabase
+        .rpc("proximo_numero_orcamento", { uid: usuario.id });
+
+      if (numError) {
+        setMensagem("❌ Erro ao gerar número: " + numError.message);
+        setSalvando(false);
+        return;
+      }
+      numeroAtual = numData;
+    }
+
     const dadosOrcamento = {
       empresa, telefone, cliente, email,
+      cliente_telefone: clienteTelefone,
+      cliente_documento: clienteDocumento,
+      cliente_endereco: clienteEndereco,
       itens, total: totalGeral,
       observacoes, validade,
       desconto_tipo: descontoTipo,
       desconto_valor: descontoNumero,
+      numero_orcamento: numeroAtual,
       user_id: usuario.id
     };
 
@@ -226,9 +290,9 @@ function HomeContent() {
       return;
     }
 
-    // Salva o ID pra usar no PDF
     if (resultado.data && resultado.data.length > 0) {
       setIdOrcamento(resultado.data[0].id);
+      setNumeroOrcamento(resultado.data[0].numero_orcamento);
     }
 
     setMensagem(modoEdicao ? "✅ Orçamento atualizado!" : "✅ Orçamento salvo!");
@@ -244,55 +308,50 @@ function HomeContent() {
     setMensagem("");
     setCliente("");
     setEmail("");
+    setClienteTelefone("");
+    setClienteDocumento("");
+    setClienteEndereco("");
     setItens([{ produto: "", descricao: "", quantidade: "", unidade: "un", unidadeCustom: "", valor: "" }]);
     setObservacoes("");
     setValidade(calcularValidadePadrao());
     setDescontoTipo("percentual");
     setDescontoValor("");
     setIdOrcamento(null);
+    setNumeroOrcamento(null);
   }
 
   async function baixarPDF() {
     const doc = new jsPDF();
-
-    // ===== CABEÇALHO =====
     let yTopo = 15;
 
-    // Logo (se existir)
-    let temLogo = false;
+    // Logo
     if (perfilCompleto?.logo_url) {
       try {
         const logoBase64 = await urlParaBase64(perfilCompleto.logo_url);
         if (logoBase64) {
-          // Calcula proporções da logo para não distorcer
-const img = new Image();
-img.src = logoBase64;
-await new Promise((resolve) => {
-  img.onload = resolve;
-  img.onerror = resolve;
-});
+          const img = new Image();
+          img.src = logoBase64;
+          await new Promise((resolve) => {
+            img.onload = resolve;
+            img.onerror = resolve;
+          });
 
-const maxWidth = 70;  // largura máxima em mm
-const maxHeight = 45; // altura máxima em mm
+          const maxWidth = 70;
+          const maxHeight = 45;
+          let logoW = img.width;
+          let logoH = img.height;
+          const ratio = Math.min(maxWidth / logoW, maxHeight / logoH);
+          logoW = logoW * ratio;
+          logoH = logoH * ratio;
 
-let logoW = img.width;
-let logoH = img.height;
-
-// Ajusta mantendo proporção
-const ratio = Math.min(maxWidth / logoW, maxHeight / logoH);
-logoW = logoW * ratio;
-logoH = logoH * ratio;
-
-doc.addImage(logoBase64, "PNG", 20, yTopo, logoW, logoH);
-          temLogo = true;
+          doc.addImage(logoBase64, "PNG", 20, yTopo, logoW, logoH);
         }
       } catch (err) {
         console.error("Erro ao adicionar logo:", err);
       }
     }
 
-    // Número do orçamento + data (canto direito)
-    const numOrc = formatarNumeroOrcamento(idOrcamento);
+    const numOrc = formatarNumeroOrcamento(numeroOrcamento);
     doc.setFontSize(20);
     doc.setFont("helvetica", "bold");
     doc.setTextColor(37, 99, 235);
@@ -312,13 +371,12 @@ doc.addImage(logoBase64, "PNG", 20, yTopo, logoW, logoH);
       doc.text(`Valido ate: ${formatarDataBR(validade)}`, 190, yTopo + 27, { align: "right" });
     }
 
-    // Linha divisória
-    let ySep = yTopo + 35;
+    let ySep = yTopo + 50;
     doc.setDrawColor(220);
     doc.setLineWidth(0.5);
     doc.line(20, ySep, 190, ySep);
 
-    // ===== DADOS DA EMPRESA =====
+    // DE (Empresa)
     let yEmpresa = ySep + 8;
     doc.setFontSize(9);
     doc.setTextColor(120);
@@ -334,26 +392,13 @@ doc.addImage(logoBase64, "PNG", 20, yTopo, logoW, logoH);
     doc.setTextColor(80);
     let yInfoEmpresa = yEmpresa + 13;
 
-    if (telefone) {
-      doc.text(telefone, 20, yInfoEmpresa);
-      yInfoEmpresa += 4;
-    }
-    if (perfilCompleto?.email_empresa) {
-      doc.text(perfilCompleto.email_empresa, 20, yInfoEmpresa);
-      yInfoEmpresa += 4;
-    }
-    if (perfilCompleto?.endereco) {
-      doc.text(perfilCompleto.endereco, 20, yInfoEmpresa);
-      yInfoEmpresa += 4;
-    }
-    if (perfilCompleto?.documento) {
-      doc.text(`CNPJ/CPF: ${perfilCompleto.documento}`, 20, yInfoEmpresa);
-      yInfoEmpresa += 4;
-    }
+    if (telefone) { doc.text(telefone, 20, yInfoEmpresa); yInfoEmpresa += 4; }
+    if (perfilCompleto?.email_empresa) { doc.text(perfilCompleto.email_empresa, 20, yInfoEmpresa); yInfoEmpresa += 4; }
+    if (perfilCompleto?.endereco) { doc.text(perfilCompleto.endereco, 20, yInfoEmpresa); yInfoEmpresa += 4; }
+    if (perfilCompleto?.documento) { doc.text(`CNPJ/CPF: ${perfilCompleto.documento}`, 20, yInfoEmpresa); yInfoEmpresa += 4; }
 
-    // ===== DADOS DO CLIENTE =====
+    // PARA (Cliente)
     let yCliente = Math.max(yInfoEmpresa + 8, yEmpresa + 30);
-
     doc.setDrawColor(220);
     doc.line(20, yCliente, 190, yCliente);
     yCliente += 8;
@@ -370,12 +415,15 @@ doc.addImage(logoBase64, "PNG", 20, yTopo, logoW, logoH);
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
     doc.setTextColor(80);
-    if (email) {
-      doc.text(email, 20, yCliente + 13);
-    }
+    let yInfoCliente = yCliente + 13;
 
-    // ===== ITENS =====
-    let yItens = yCliente + 22;
+    if (clienteTelefone) { doc.text(clienteTelefone, 20, yInfoCliente); yInfoCliente += 4; }
+    if (email) { doc.text(email, 20, yInfoCliente); yInfoCliente += 4; }
+    if (clienteDocumento) { doc.text(`CPF/CNPJ: ${clienteDocumento}`, 20, yInfoCliente); yInfoCliente += 4; }
+    if (clienteEndereco) { doc.text(clienteEndereco, 20, yInfoCliente); yInfoCliente += 4; }
+
+    // ITENS
+    let yItens = Math.max(yInfoCliente + 8, yCliente + 25);
     doc.setDrawColor(220);
     doc.line(20, yItens, 190, yItens);
     yItens += 8;
@@ -385,7 +433,6 @@ doc.addImage(logoBase64, "PNG", 20, yTopo, logoW, logoH);
     doc.text("ITENS", 20, yItens);
     yItens += 7;
 
-    // Cabeçalho da tabela
     doc.setFillColor(245, 247, 250);
     doc.rect(20, yItens - 5, 170, 8, "F");
 
@@ -425,13 +472,11 @@ doc.addImage(logoBase64, "PNG", 20, yTopo, logoW, logoH);
       }
     });
 
-    // Linha antes dos totais
     yItens += 3;
     doc.setDrawColor(200);
     doc.line(20, yItens, 190, yItens);
     yItens += 8;
 
-    // ===== TOTAIS =====
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(80);
@@ -449,8 +494,6 @@ doc.addImage(logoBase64, "PNG", 20, yTopo, logoW, logoH);
     }
 
     yItens += 10;
-
-    // Total destacado
     doc.setFillColor(240, 247, 255);
     doc.rect(115, yItens - 6, 75, 12, "F");
 
@@ -462,7 +505,6 @@ doc.addImage(logoBase64, "PNG", 20, yTopo, logoW, logoH);
     doc.text(`R$ ${totalGeral.toFixed(2)}`, 188, yItens + 1, { align: "right" });
     doc.setTextColor(0);
 
-    // ===== OBSERVAÇÕES =====
     if (observacoes && observacoes.trim() !== "") {
       let yObs = yItens + 20;
       doc.setDrawColor(220);
@@ -478,7 +520,6 @@ doc.addImage(logoBase64, "PNG", 20, yTopo, logoW, logoH);
       doc.text(linhas, 20, yObs + 6);
     }
 
-    // ===== RODAPÉ =====
     const alturaPagina = doc.internal.pageSize.height;
     doc.setDrawColor(230);
     doc.line(20, alturaPagina - 15, 190, alturaPagina - 15);
@@ -490,7 +531,6 @@ doc.addImage(logoBase64, "PNG", 20, yTopo, logoW, logoH);
     doc.setFont("helvetica", "normal");
     doc.text(dataHoje, 105, alturaPagina - 6, { align: "center" });
 
-    // Salva
     doc.save(`orcamento-${numOrc}-${cliente || "cliente"}.pdf`);
   }
 
@@ -538,13 +578,61 @@ doc.addImage(logoBase64, "PNG", 20, yTopo, logoW, logoH);
               <div>
                 <h2 className="text-lg font-semibold text-gray-700 mb-3">Sua Empresa</h2>
                 <input type="text" placeholder="Nome da empresa" value={empresa} onChange={(e) => setEmpresa(e.target.value)} required className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                <input type="text" placeholder="Telefone" value={telefone} onChange={(e) => setTelefone(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                <input type="text" placeholder="Telefone" value={telefone} onChange={(e) => setTelefone(formatarTelefone(e.target.value))} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
               </div>
 
+              {/* CLIENTE — CAMPOS EXPANDIDOS */}
               <div>
                 <h2 className="text-lg font-semibold text-gray-700 mb-3">Cliente</h2>
-                <input type="text" placeholder="Nome do cliente" value={cliente} onChange={(e) => setCliente(e.target.value)} required className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                <input type="email" placeholder="E-mail do cliente" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+
+                <div className="space-y-3">
+                  <input
+                    type="text"
+                    placeholder="Nome do cliente *"
+                    value={cliente}
+                    onChange={(e) => setCliente(e.target.value)}
+                    required
+                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+
+                  <div className="relative">
+                    <input
+                      type="tel"
+                      placeholder="📱 Telefone / WhatsApp *"
+                      value={clienteTelefone}
+                      onChange={(e) => setClienteTelefone(formatarTelefone(e.target.value))}
+                      required
+                      className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
+                      💬 Você poderá enviar o orçamento direto por WhatsApp!
+                    </p>
+                  </div>
+
+                  <input
+                    type="email"
+                    placeholder="E-mail (opcional)"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+
+                  <input
+                    type="text"
+                    placeholder="CPF / CNPJ (opcional)"
+                    value={clienteDocumento}
+                    onChange={(e) => setClienteDocumento(e.target.value)}
+                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+
+                  <input
+                    type="text"
+                    placeholder="Endereço (opcional)"
+                    value={clienteEndereco}
+                    onChange={(e) => setClienteEndereco(e.target.value)}
+                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
               </div>
 
               <div>
@@ -673,7 +761,7 @@ doc.addImage(logoBase64, "PNG", 20, yTopo, logoW, logoH);
           {orcamentoGerado && (
             <div className="space-y-6">
               <div className="text-center border-b pb-4">
-                <h1 className="text-2xl font-bold text-gray-800">ORÇAMENTO #{formatarNumeroOrcamento(idOrcamento)}</h1>
+                <h1 className="text-2xl font-bold text-gray-800">ORÇAMENTO #{formatarNumeroOrcamento(numeroOrcamento)}</h1>
                 <p className="text-sm text-gray-500 mt-1">Data: {dataHoje}</p>
                 {validade && (<p className="text-sm text-red-600 mt-1 font-medium">Válido até: {formatarDataBR(validade)}</p>)}
               </div>
@@ -690,7 +778,10 @@ doc.addImage(logoBase64, "PNG", 20, yTopo, logoW, logoH);
               <div className="border-b pb-4">
                 <h2 className="text-sm text-gray-500 uppercase">Para</h2>
                 <p className="text-lg font-semibold text-gray-800">{cliente}</p>
-                <p className="text-gray-600">{email}</p>
+                {clienteTelefone && <p className="text-gray-600">📱 {clienteTelefone}</p>}
+                {email && <p className="text-gray-600 text-sm">{email}</p>}
+                {clienteDocumento && <p className="text-gray-600 text-sm">CPF/CNPJ: {clienteDocumento}</p>}
+                {clienteEndereco && <p className="text-gray-600 text-sm">{clienteEndereco}</p>}
               </div>
 
               <div className="border-b pb-4">
@@ -740,13 +831,25 @@ doc.addImage(logoBase64, "PNG", 20, yTopo, logoW, logoH);
 
               {mensagem && <div className="text-center text-sm py-2">{mensagem}</div>}
 
-              <div className="grid grid-cols-2 gap-3">
-                <button onClick={baixarPDF} className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition-colors">
-                  📄 Baixar PDF
-                </button>
-                <button onClick={novoOrcamento} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 rounded-lg transition-colors">
-                  {modoEdicao ? "Voltar" : "Novo Orçamento"}
-                </button>
+              {/* BOTÕES DE AÇÃO */}
+              <div className="space-y-2">
+                {clienteTelefone && (
+                  <button
+                    onClick={enviarWhatsApp}
+                    className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+                  >
+                    💬 Enviar por WhatsApp
+                  </button>
+                )}
+
+                <div className="grid grid-cols-2 gap-3">
+                  <button onClick={baixarPDF} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors">
+                    📄 Baixar PDF
+                  </button>
+                  <button onClick={novoOrcamento} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 rounded-lg transition-colors">
+                    {modoEdicao ? "Voltar" : "Novo Orçamento"}
+                  </button>
+                </div>
               </div>
             </div>
           )}
