@@ -196,6 +196,7 @@ export default function Perfil() {
         <div className="flex flex-wrap justify-between items-center mb-4 gap-2 text-sm">
           <span className="text-gray-600">👤 {usuario?.email}</span>
           <div className="flex gap-4 items-center">
+            <Link href="/dashboard" className="text-gray-700 hover:text-blue-600 font-medium">📊 Dashboard</Link>
             <Link href="/app" className="text-gray-700 hover:text-blue-600 font-medium">
               ➕ Novo Orçamento
             </Link>

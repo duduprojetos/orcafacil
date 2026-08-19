@@ -27,7 +27,6 @@ function calcularValidadePadrao() {
   return hoje.toISOString().split("T")[0];
 }
 
-// Formata telefone: (11) 99999-9999
 function formatarTelefone(valor) {
   const numeros = valor.replace(/\D/g, "").slice(0, 11);
   if (numeros.length <= 2) return numeros;
@@ -36,11 +35,9 @@ function formatarTelefone(valor) {
   return `(${numeros.slice(0, 2)}) ${numeros.slice(2, 7)}-${numeros.slice(7)}`;
 }
 
-// Pega só números do telefone (pra usar no link do WhatsApp)
 function limparTelefone(tel) {
   if (!tel) return "";
   const numeros = tel.replace(/\D/g, "");
-  // Adiciona 55 (Brasil) se não tiver
   if (numeros.length === 11 || numeros.length === 10) {
     return "55" + numeros;
   }
@@ -75,6 +72,7 @@ function HomeContent() {
   const [perfilCompleto, setPerfilCompleto] = useState(null);
   const [idOrcamento, setIdOrcamento] = useState(null);
   const [numeroOrcamento, setNumeroOrcamento] = useState(null);
+  const [tokenPublico, setTokenPublico] = useState(null);
 
   const [empresa, setEmpresa] = useState("");
   const [telefone, setTelefone] = useState("");
@@ -134,6 +132,7 @@ function HomeContent() {
     if (data) {
       setIdOrcamento(data.id);
       setNumeroOrcamento(data.numero_orcamento);
+      setTokenPublico(data.token_publico);
       setEmpresa(data.empresa || "");
       setTelefone(data.telefone || "");
       setCliente(data.cliente || "");
@@ -206,12 +205,31 @@ function HomeContent() {
     return Math.ceil(diff / (1000 * 60 * 60 * 24));
   }
 
-  function formatarNumeroOrcamento(id) {
-    if (!id) return "0001";
-    return String(id).padStart(4, "0");
+  function formatarNumeroOrcamento(num) {
+    if (!num) return "0001";
+    return String(num).padStart(4, "0");
   }
 
-  // Enviar por WhatsApp
+  function gerarLinkPublico() {
+    if (!tokenPublico) return "";
+    return `${window.location.origin}/orcamento/${tokenPublico}`;
+  }
+
+  async function copiarLink() {
+    const link = gerarLinkPublico();
+    if (!link) {
+      alert("⚠️ Link ainda não disponível");
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(link);
+      setMensagem("✅ Link copiado para a área de transferência!");
+      setTimeout(() => setMensagem(""), 3000);
+    } catch (err) {
+      alert("Erro ao copiar. Copie manualmente: " + link);
+    }
+  }
+
   function enviarWhatsApp() {
     if (!clienteTelefone) {
       alert("⚠️ Preencha o telefone do cliente antes de enviar por WhatsApp!");
@@ -225,8 +243,14 @@ function HomeContent() {
     }
 
     const numOrc = formatarNumeroOrcamento(numeroOrcamento);
+    const link = gerarLinkPublico();
 
-    const mensagem = `Olá ${cliente}! 👋\n\nSegue o orçamento #${numOrc} solicitado:\n\n💰 *Total: R$ ${totalGeral.toFixed(2)}*\n📅 Válido até: ${formatarDataBR(validade)}\n\nQualquer dúvida, estou à disposição!\n\n_${empresa}_`;
+    let mensagem;
+    if (link) {
+      mensagem = `Olá ${cliente}! 👋\n\nSegue o orçamento #${numOrc} solicitado:\n\n💰 *Total: R$ ${totalGeral.toFixed(2)}*\n📅 Válido até: ${formatarDataBR(validade)}\n\n👉 *Visualizar e aprovar:*\n${link}\n\nQualquer dúvida, estou à disposição!\n\n_${empresa}_`;
+    } else {
+      mensagem = `Olá ${cliente}! 👋\n\nSegue o orçamento #${numOrc} solicitado:\n\n💰 *Total: R$ ${totalGeral.toFixed(2)}*\n📅 Válido até: ${formatarDataBR(validade)}\n\nQualquer dúvida, estou à disposição!\n\n_${empresa}_`;
+    }
 
     const url = `https://wa.me/${numeroLimpo}?text=${encodeURIComponent(mensagem)}`;
     window.open(url, "_blank");
@@ -250,7 +274,6 @@ function HomeContent() {
     setSalvando(true);
     setMensagem("");
 
-    // Buscar próximo número (só pra novos orçamentos)
     let numeroAtual = numeroOrcamento;
     if (!modoEdicao) {
       const { data: numData, error: numError } = await supabase
@@ -293,6 +316,7 @@ function HomeContent() {
     if (resultado.data && resultado.data.length > 0) {
       setIdOrcamento(resultado.data[0].id);
       setNumeroOrcamento(resultado.data[0].numero_orcamento);
+      setTokenPublico(resultado.data[0].token_publico);
     }
 
     setMensagem(modoEdicao ? "✅ Orçamento atualizado!" : "✅ Orçamento salvo!");
@@ -318,13 +342,13 @@ function HomeContent() {
     setDescontoValor("");
     setIdOrcamento(null);
     setNumeroOrcamento(null);
+    setTokenPublico(null);
   }
 
   async function baixarPDF() {
     const doc = new jsPDF();
     let yTopo = 15;
 
-    // Logo
     if (perfilCompleto?.logo_url) {
       try {
         const logoBase64 = await urlParaBase64(perfilCompleto.logo_url);
@@ -376,7 +400,6 @@ function HomeContent() {
     doc.setLineWidth(0.5);
     doc.line(20, ySep, 190, ySep);
 
-    // DE (Empresa)
     let yEmpresa = ySep + 8;
     doc.setFontSize(9);
     doc.setTextColor(120);
@@ -397,7 +420,6 @@ function HomeContent() {
     if (perfilCompleto?.endereco) { doc.text(perfilCompleto.endereco, 20, yInfoEmpresa); yInfoEmpresa += 4; }
     if (perfilCompleto?.documento) { doc.text(`CNPJ/CPF: ${perfilCompleto.documento}`, 20, yInfoEmpresa); yInfoEmpresa += 4; }
 
-    // PARA (Cliente)
     let yCliente = Math.max(yInfoEmpresa + 8, yEmpresa + 30);
     doc.setDrawColor(220);
     doc.line(20, yCliente, 190, yCliente);
@@ -422,7 +444,6 @@ function HomeContent() {
     if (clienteDocumento) { doc.text(`CPF/CNPJ: ${clienteDocumento}`, 20, yInfoCliente); yInfoCliente += 4; }
     if (clienteEndereco) { doc.text(clienteEndereco, 20, yInfoCliente); yInfoCliente += 4; }
 
-    // ITENS
     let yItens = Math.max(yInfoCliente + 8, yCliente + 25);
     doc.setDrawColor(220);
     doc.line(20, yItens, 190, yItens);
@@ -549,6 +570,7 @@ function HomeContent() {
         <div className="flex flex-wrap justify-between items-center mb-4 gap-2 text-sm">
           <span className="text-gray-600">👤 {usuario?.email}</span>
           <div className="flex gap-4 items-center">
+            <Link href="/dashboard" className="text-gray-700 hover:text-blue-600 font-medium">📊 Dashboard</Link>
             <Link href="/perfil" className="text-gray-700 hover:text-blue-600 font-medium">⚙️ Perfil</Link>
             <Link href="/orcamentos" className="text-gray-700 hover:text-blue-600 font-medium">📄 Orçamentos</Link>
             <button onClick={sair} className="text-red-600 hover:text-red-800 font-medium">Sair</button>
@@ -581,57 +603,17 @@ function HomeContent() {
                 <input type="text" placeholder="Telefone" value={telefone} onChange={(e) => setTelefone(formatarTelefone(e.target.value))} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
               </div>
 
-              {/* CLIENTE — CAMPOS EXPANDIDOS */}
               <div>
                 <h2 className="text-lg font-semibold text-gray-700 mb-3">Cliente</h2>
-
                 <div className="space-y-3">
-                  <input
-                    type="text"
-                    placeholder="Nome do cliente *"
-                    value={cliente}
-                    onChange={(e) => setCliente(e.target.value)}
-                    required
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-
+                  <input type="text" placeholder="Nome do cliente *" value={cliente} onChange={(e) => setCliente(e.target.value)} required className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
                   <div className="relative">
-                    <input
-                      type="tel"
-                      placeholder="📱 Telefone / WhatsApp *"
-                      value={clienteTelefone}
-                      onChange={(e) => setClienteTelefone(formatarTelefone(e.target.value))}
-                      required
-                      className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
-                      💬 Você poderá enviar o orçamento direto por WhatsApp!
-                    </p>
+                    <input type="tel" placeholder="📱 Telefone / WhatsApp *" value={clienteTelefone} onChange={(e) => setClienteTelefone(formatarTelefone(e.target.value))} required className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <p className="text-xs text-green-600 mt-1">💬 Você poderá enviar o orçamento direto por WhatsApp!</p>
                   </div>
-
-                  <input
-                    type="email"
-                    placeholder="E-mail (opcional)"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-
-                  <input
-                    type="text"
-                    placeholder="CPF / CNPJ (opcional)"
-                    value={clienteDocumento}
-                    onChange={(e) => setClienteDocumento(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-
-                  <input
-                    type="text"
-                    placeholder="Endereço (opcional)"
-                    value={clienteEndereco}
-                    onChange={(e) => setClienteEndereco(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
+                  <input type="email" placeholder="E-mail (opcional)" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  <input type="text" placeholder="CPF / CNPJ (opcional)" value={clienteDocumento} onChange={(e) => setClienteDocumento(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  <input type="text" placeholder="Endereço (opcional)" value={clienteEndereco} onChange={(e) => setClienteEndereco(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
                 </div>
               </div>
 
@@ -832,13 +814,39 @@ function HomeContent() {
               {mensagem && <div className="text-center text-sm py-2">{mensagem}</div>}
 
               {/* BOTÕES DE AÇÃO */}
-              <div className="space-y-2">
+              <div className="space-y-3">
+
+                {/* Link público em destaque */}
+                {tokenPublico && (
+                  <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-200 rounded-xl p-4">
+                    <p className="text-xs text-gray-600 uppercase font-semibold mb-2">🔗 Link para o cliente aprovar</p>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={gerarLinkPublico()}
+                        readOnly
+                        className="flex-1 bg-white border border-blue-200 rounded-lg px-3 py-2 text-sm text-gray-700 font-mono truncate"
+                        onFocus={(e) => e.target.select()}
+                      />
+                      <button
+                        onClick={copiarLink}
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
+                      >
+                        📋 Copiar
+                      </button>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-2">
+                      💡 Envie este link ao cliente. Ele poderá visualizar e aprovar o orçamento diretamente!
+                    </p>
+                  </div>
+                )}
+
                 {clienteTelefone && (
                   <button
                     onClick={enviarWhatsApp}
                     className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
                   >
-                    💬 Enviar por WhatsApp
+                    💬 Enviar por WhatsApp (com link)
                   </button>
                 )}
 

@@ -169,6 +169,7 @@ export default function Orcamentos() {
     👤 {usuario?.email}
   </span>
   <div className="flex gap-4 items-center">
+    <Link href="/dashboard" className="text-gray-700 hover:text-blue-600 font-medium">📊 Dashboard</Link>
     <Link href="/perfil" className="text-gray-700 hover:text-blue-600 font-medium">
       ⚙️ Perfil
     </Link>
