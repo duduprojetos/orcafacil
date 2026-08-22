@@ -38,7 +38,7 @@ export default function OrcamentoPublico() {
     const { data: perfilData } = await supabase
   .rpc("get_perfil_por_token", { p_token: token });
 
-if (perfilData && perfilData.length > 0) setPerfil(perfilData[0]);
+  if (perfilData && perfilData.length > 0) setPerfil(perfilData[0]);
 
     setCarregando(false);
   }
