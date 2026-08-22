@@ -23,24 +23,23 @@ export default function OrcamentoPublico() {
     setCarregando(true);
 
     const { data, error } = await supabase
-  .rpc("get_orcamento_por_token", { p_token: token });
+      .rpc("get_orcamento_por_token", { p_token: token });
 
-if (error || !data || data.length === 0) {
-  setNaoEncontrado(true);
-  setCarregando(false);
-  return;
-}
+    if (error || !data || data.length === 0) {
+      setNaoEncontrado(true);
+      setCarregando(false);
+      return;
+    }
 
-setOrcamento(data[0]);
-
-    setOrcamento(data);
+    const orcamentoEncontrado = data[0];
+    setOrcamento(orcamentoEncontrado);
 
     // Carrega perfil do dono do orçamento (pra pegar logo)
-    if (data.user_id) {
+    if (orcamentoEncontrado.user_id) {
       const { data: perfilData } = await supabase
         .from("perfis")
         .select("*")
-        .eq("user_id", data.user_id)
+        .eq("user_id", orcamentoEncontrado.user_id)
         .maybeSingle();
 
       if (perfilData) setPerfil(perfilData);
@@ -60,22 +59,23 @@ setOrcamento(data[0]);
     setProcessando(true);
 
     const { data, error } = await supabase
-  .rpc("responder_orcamento_por_token", {
-    p_token: token,
-    p_status: novoStatus
-  });
+      .rpc("responder_orcamento_por_token", {
+        p_token: token,
+        p_status: novoStatus
+      });
 
-setProcessando(false);
+    setProcessando(false);
 
-if (error) {
-  setMensagem("❌ Erro: " + error.message);
-  return;
-}
+    if (error) {
+      setMensagem("❌ Erro: " + error.message);
+      return;
+    }
 
-if (!data || data.length === 0) {
-  setMensagem("❌ Não foi possível responder. O orçamento já pode ter sido respondido, ou o link expirou.");
-  return;
-}
+    if (!data || data.length === 0) {
+      setMensagem("❌ Não foi possível responder. O orçamento já pode ter sido respondido, ou o link expirou.");
+      return;
+    }
+
     // Atualiza o orçamento localmente
     setOrcamento({
       ...orcamento,
