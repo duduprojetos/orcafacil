@@ -23,16 +23,15 @@ export default function OrcamentoPublico() {
     setCarregando(true);
 
     const { data, error } = await supabase
-      .from("orcamentos")
-      .select("*")
-      .eq("token_publico", token)
-      .maybeSingle();
+  .rpc("get_orcamento_por_token", { p_token: token });
 
-    if (error || !data) {
-      setNaoEncontrado(true);
-      setCarregando(false);
-      return;
-    }
+if (error || !data || data.length === 0) {
+  setNaoEncontrado(true);
+  setCarregando(false);
+  return;
+}
+
+setOrcamento(data[0]);
 
     setOrcamento(data);
 
@@ -60,21 +59,23 @@ export default function OrcamentoPublico() {
 
     setProcessando(true);
 
-    const { error } = await supabase
-      .from("orcamentos")
-      .update({
-        status: novoStatus,
-        data_resposta: new Date().toISOString()
-      })
-      .eq("token_publico", token);
+    const { data, error } = await supabase
+  .rpc("responder_orcamento_por_token", {
+    p_token: token,
+    p_status: novoStatus
+  });
 
-    setProcessando(false);
+setProcessando(false);
 
-    if (error) {
-      setMensagem("❌ Erro: " + error.message);
-      return;
-    }
+if (error) {
+  setMensagem("❌ Erro: " + error.message);
+  return;
+}
 
+if (!data || data.length === 0) {
+  setMensagem("❌ Não foi possível responder. O orçamento já pode ter sido respondido, ou o link expirou.");
+  return;
+}
     // Atualiza o orçamento localmente
     setOrcamento({
       ...orcamento,
