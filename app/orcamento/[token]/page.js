@@ -35,15 +35,10 @@ export default function OrcamentoPublico() {
     setOrcamento(orcamentoEncontrado);
 
     // Carrega perfil do dono do orçamento (pra pegar logo)
-    if (orcamentoEncontrado.user_id) {
-      const { data: perfilData } = await supabase
-        .from("perfis")
-        .select("*")
-        .eq("user_id", orcamentoEncontrado.user_id)
-        .maybeSingle();
+    const { data: perfilData } = await supabase
+  .rpc("get_perfil_por_token", { p_token: token });
 
-      if (perfilData) setPerfil(perfilData);
-    }
+if (perfilData && perfilData.length > 0) setPerfil(perfilData[0]);
 
     setCarregando(false);
   }
