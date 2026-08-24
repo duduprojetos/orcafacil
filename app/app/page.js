@@ -635,28 +635,28 @@ function toggleTemplate(texto) {
 
               <div>
                 <h2 className="text-lg font-semibold text-gray-700 mb-3">Sua Empresa</h2>
-                <input type="text" placeholder="Nome da empresa" value={empresa} onChange={(e) => setEmpresa(e.target.value)} required className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                <input type="text" placeholder="Telefone" value={telefone} onChange={(e) => setTelefone(formatarTelefone(e.target.value))} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                <input type="text" placeholder="Nome da empresa" value={empresa} onChange={(e) => setEmpresa(e.target.value)} required className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-3 focus:outline-none focus:ring-2 focus:ring-black" />
+                <input type="text" placeholder="Telefone" value={telefone} onChange={(e) => setTelefone(formatarTelefone(e.target.value))} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
               </div>
 
               <div>
                 <h2 className="text-lg font-semibold text-gray-700 mb-3">Cliente</h2>
                 <div className="space-y-3">
-                  <input type="text" placeholder="Nome do cliente *" value={cliente} onChange={(e) => setCliente(e.target.value)} required className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  <input type="text" placeholder="Nome do cliente *" value={cliente} onChange={(e) => setCliente(e.target.value)} required className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
                   <div className="relative">
-                    <input type="tel" placeholder="📱 Telefone / WhatsApp *" value={clienteTelefone} onChange={(e) => setClienteTelefone(formatarTelefone(e.target.value))} required className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <input type="tel" placeholder="📱 Telefone / WhatsApp *" value={clienteTelefone} onChange={(e) => setClienteTelefone(formatarTelefone(e.target.value))} required className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
                     <p className="text-xs text-green-600 mt-1">💬 Você poderá enviar o orçamento direto por WhatsApp!</p>
                   </div>
-                  <input type="email" placeholder="E-mail (opcional)" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                  <input type="text" placeholder="CPF / CNPJ (opcional)" value={clienteDocumento} onChange={(e) => setClienteDocumento(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                  <input type="text" placeholder="Endereço (opcional)" value={clienteEndereco} onChange={(e) => setClienteEndereco(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  <input type="email" placeholder="E-mail (opcional)" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
+                  <input type="text" placeholder="CPF / CNPJ (opcional)" value={clienteDocumento} onChange={(e) => setClienteDocumento(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
+                  <input type="text" placeholder="Endereço (opcional)" value={clienteEndereco} onChange={(e) => setClienteEndereco(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
                 </div>
               </div>
 
               <div>
                 <div className="flex justify-between items-center mb-3">
                   <h2 className="text-lg font-semibold text-gray-700">Itens do Orçamento</h2>
-                  <button type="button" onClick={adicionarItem} className="text-sm bg-blue-100 hover:bg-blue-200 text-blue-700 font-medium px-3 py-1 rounded-lg transition-colors">
+                  <button type="button" onClick={adicionarItem} className="text-sm bg-zinc-100 hover:bg-zinc-200 text-black font-medium px-3 py-1 rounded-lg transition-colors">
                     + Adicionar Item
                   </button>
                 </div>
@@ -674,27 +674,27 @@ function toggleTemplate(texto) {
                         )}
                       </div>
 
-                      <input type="text" placeholder="Produto ou serviço *" value={item.produto} onChange={(e) => atualizarItem(index, "produto", e.target.value)} required className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                      <input type="text" placeholder="Descrição detalhada (opcional)" value={item.descricao} onChange={(e) => atualizarItem(index, "descricao", e.target.value)} className="w-full border border-gray-200 rounded-lg px-4 py-2 mb-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                      <input type="text" placeholder="Produto ou serviço *" value={item.produto} onChange={(e) => atualizarItem(index, "produto", e.target.value)} required className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-2 focus:outline-none focus:ring-2 focus:ring-black" />
+                      <input type="text" placeholder="Descrição detalhada (opcional)" value={item.descricao} onChange={(e) => atualizarItem(index, "descricao", e.target.value)} className="w-full border border-gray-200 rounded-lg px-4 py-2 mb-3 text-sm focus:outline-none focus:ring-2 focus:ring-black" />
 
                       <div className="grid grid-cols-3 gap-2 mb-2">
                         <div>
                           <label className="block text-xs text-gray-500 mb-1">Qtd</label>
-                            <input type="number" step="0.01" min="0.01" placeholder="1" value={item.quantidade} onChange={(e) => atualizarItem(index, "quantidade", e.target.value)} required className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />                        </div>
+                            <input type="number" step="0.01" min="0.01" placeholder="1" value={item.quantidade} onChange={(e) => atualizarItem(index, "quantidade", e.target.value)} required className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black" />                        </div>
                         <div>
                           <label className="block text-xs text-gray-500 mb-1">Unidade</label>
-                          <select value={item.unidade} onChange={(e) => atualizarItem(index, "unidade", e.target.value)} className="w-full border border-gray-300 rounded-lg px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                          <select value={item.unidade} onChange={(e) => atualizarItem(index, "unidade", e.target.value)} className="w-full border border-gray-300 rounded-lg px-2 py-2 focus:outline-none focus:ring-2 focus:ring-black bg-white">
                             {UNIDADES.map(u => (<option key={u.valor} value={u.valor}>{u.label}</option>))}
                           </select>
                         </div>
                         <div>
                           <label className="block text-xs text-gray-500 mb-1">Valor unit. (R$)</label>
-                          <input type="number" step="0.01" min="0" placeholder="0,00" value={item.valor} onChange={(e) => atualizarItem(index, "valor", e.target.value)} required className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                          <input type="number" step="0.01" min="0" placeholder="0,00" value={item.valor} onChange={(e) => atualizarItem(index, "valor", e.target.value)} required className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
                         </div>
                       </div>
 
                       {item.unidade === "outro" && (
-                        <input type="text" placeholder="Digite a unidade" value={item.unidadeCustom} onChange={(e) => atualizarItem(index, "unidadeCustom", e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        <input type="text" placeholder="Digite a unidade" value={item.unidadeCustom} onChange={(e) => atualizarItem(index, "unidadeCustom", e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-2 text-sm focus:outline-none focus:ring-2 focus:ring-black" />
                       )}
 
                       {sub > 0 && (
@@ -718,10 +718,10 @@ function toggleTemplate(texto) {
                     <div className="flex items-center gap-2 mb-2">
                       <label className="text-sm font-medium text-gray-700">Desconto</label>
                       <div className="flex bg-white border border-gray-300 rounded-lg overflow-hidden text-xs">
-                        <button type="button" onClick={() => setDescontoTipo("percentual")} className={`px-3 py-1 font-semibold ${descontoTipo === "percentual" ? "bg-blue-600 text-white" : "text-gray-600 hover:bg-gray-100"}`}>%</button>
-                        <button type="button" onClick={() => setDescontoTipo("fixo")} className={`px-3 py-1 font-semibold ${descontoTipo === "fixo" ? "bg-blue-600 text-white" : "text-gray-600 hover:bg-gray-100"}`}>R$</button>
+                        <button type="button" onClick={() => setDescontoTipo("percentual")} className={`px-3 py-1 font-semibold ${descontoTipo === "percentual" ? "bg-black text-white" : "text-gray-600 hover:bg-gray-100"}`}>%</button>
+                        <button type="button" onClick={() => setDescontoTipo("fixo")} className={`px-3 py-1 font-semibold ${descontoTipo === "fixo" ? "bg-black text-white" : "text-gray-600 hover:bg-gray-100"}`}>R$</button>
                       </div>
-                      <input type="number" step="0.01" min="0" placeholder="0" value={descontoValor} onChange={(e) => setDescontoValor(e.target.value)} className="flex-1 border border-gray-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                      <input type="number" step="0.01" min="0" placeholder="0" value={descontoValor} onChange={(e) => setDescontoValor(e.target.value)} className="flex-1 border border-gray-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-black" />
                     </div>
 
                     {valorDesconto > 0 && (
@@ -732,9 +732,9 @@ function toggleTemplate(texto) {
                     )}
                   </div>
 
-                  <div className="flex justify-between items-center bg-blue-50 border border-blue-200 rounded-lg p-3 -mx-1">
+                  <div className="flex justify-between items-center bg-zinc-50 border border-zinc-200 rounded-lg p-3 -mx-1">
                     <span className="text-base font-semibold text-gray-700">Total</span>
-                    <span className="text-2xl font-bold text-blue-600">R$ {totalGeral.toFixed(2)}</span>
+                    <span className="text-2xl font-bold text-black">R$ {totalGeral.toFixed(2)}</span>
                   </div>
                 </div>
               )}
@@ -742,7 +742,7 @@ function toggleTemplate(texto) {
               <div>
                 <h2 className="text-lg font-semibold text-gray-700 mb-3">Validade do Orçamento</h2>
                 <div className="flex gap-3 items-center">
-                  <input type="date" value={validade} onChange={(e) => setValidade(e.target.value)} className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  <input type="date" value={validade} onChange={(e) => setValidade(e.target.value)} className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
                   {diasRestantes !== null && (
                     <span className={`text-sm font-semibold px-3 py-2 rounded-lg ${
                       diasRestantes < 0 ? "bg-red-100 text-red-700"
@@ -777,7 +777,7 @@ function toggleTemplate(texto) {
           className={`text-xs font-medium px-3 py-1.5 rounded-full transition-all border ${
             ativo
               ? "bg-green-500 hover:bg-green-600 text-white border-green-500 shadow-md"
-              : "bg-blue-50 hover:bg-blue-100 text-blue-700 border-blue-200"
+              : "bg-zinc-50 hover:bg-zinc-100 text-black border-zinc-200"
           }`}
         >
           {ativo && "✓ "}{template.label}
@@ -801,7 +801,7 @@ function toggleTemplate(texto) {
                   value={observacoes}
                   onChange={(e) => setObservacoes(e.target.value.slice(0, 500))}
                   rows={4}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black resize-none"
                 />
                 <p className="text-xs text-gray-500 mt-1">💡 Aparecerá no PDF do orçamento</p>
               </div>
@@ -873,9 +873,9 @@ function toggleTemplate(texto) {
                 )}
               </div>
 
-              <div className="flex justify-between items-center bg-blue-50 rounded-lg p-4">
+              <div className="flex justify-between items-center bg-zinc-50 rounded-lg p-4">
                 <span className="text-lg font-semibold text-gray-700">Total</span>
-                <span className="text-2xl font-bold text-blue-600">R$ {totalGeral.toFixed(2)}</span>
+                <span className="text-2xl font-bold text-black">R$ {totalGeral.toFixed(2)}</span>
               </div>
 
               {observacoes && observacoes.trim() !== "" && (
@@ -889,19 +889,19 @@ function toggleTemplate(texto) {
 
               <div className="space-y-3">
                 {tokenPublico && (
-                  <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-200 rounded-xl p-4">
+                  <div className="bg-gradient-to-r from-zinc-50 to-zinc-50 border-2 border-zinc-200 rounded-xl p-4">
                     <p className="text-xs text-gray-600 uppercase font-semibold mb-2">🔗 Link para o cliente aprovar</p>
                     <div className="flex gap-2">
                       <input
                         type="text"
                         value={gerarLinkPublico()}
                         readOnly
-                        className="flex-1 bg-white border border-blue-200 rounded-lg px-3 py-2 text-sm text-gray-700 font-mono truncate"
+                        className="flex-1 bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm text-gray-700 font-mono truncate"
                         onFocus={(e) => e.target.select()}
                       />
                       <button
                         onClick={copiarLink}
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
+                        className="bg-black hover:bg-zinc-800 text-white font-semibold px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
                       >
                         📋 Copiar
                       </button>
@@ -922,7 +922,7 @@ function toggleTemplate(texto) {
                 )}
 
                 <div className="grid grid-cols-2 gap-3">
-                  <button onClick={baixarPDF} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors">
+                  <button onClick={baixarPDF} className="w-full bg-black hover:bg-zinc-800 text-white font-semibold py-3 rounded-lg transition-colors">
                     📄 Baixar PDF
                   </button>
                   <button onClick={novoOrcamento} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 rounded-lg transition-colors">

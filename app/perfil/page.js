@@ -239,12 +239,12 @@ export default function Perfil() {
                 <span className="text-xs text-gray-400 font-normal ml-2">(opcional)</span>
               </label>
 
-              <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-blue-400 transition-colors">
+              <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-black transition-colors">
                 {logoUrl ? (
                   <div className="space-y-3">
                     <img src={logoUrl} alt="Logo" className="max-h-32 mx-auto object-contain" />
                     <div className="flex gap-2 justify-center">
-                      <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploadandoLogo} className="text-sm bg-blue-100 hover:bg-blue-200 text-blue-700 font-medium px-4 py-2 rounded-lg transition-colors disabled:opacity-50">
+                      <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploadandoLogo} className="text-sm bg-zinc-100 hover:bg-zinc-200 text-black font-medium px-4 py-2 rounded-lg transition-colors disabled:opacity-50">
                         {uploadandoLogo ? "Enviando..." : "🔄 Trocar logo"}
                       </button>
                       <button type="button" onClick={removerLogo} className="text-sm bg-red-100 hover:bg-red-200 text-red-700 font-medium px-4 py-2 rounded-lg transition-colors">
@@ -256,7 +256,7 @@ export default function Perfil() {
                   <div className="space-y-2">
                     <div className="text-4xl">🖼️</div>
                     <p className="text-gray-600 text-sm">Adicione uma logo para aparecer nos seus PDFs</p>
-                    <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploadandoLogo} className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-lg transition-colors disabled:opacity-50">
+                    <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploadandoLogo} className="bg-black hover:bg-zinc-800 text-white font-medium px-5 py-2 rounded-lg transition-colors disabled:opacity-50">
                       {uploadandoLogo ? "Enviando..." : "📤 Escolher imagem"}
                     </button>
                     <p className="text-xs text-gray-400">PNG, JPG ou WEBP · Máx 2MB</p>
@@ -268,40 +268,40 @@ export default function Perfil() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Nome da empresa <span className="text-red-500">*</span></label>
-              <input type="text" placeholder="Ex: Reformas do João" value={nomeEmpresa} onChange={(e) => setNomeEmpresa(e.target.value)} required className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              <input type="text" placeholder="Ex: Reformas do João" value={nomeEmpresa} onChange={(e) => setNomeEmpresa(e.target.value)} required className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Telefone</label>
-              <input type="text" placeholder="(11) 99999-9999" value={telefone} onChange={(e) => setTelefone(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              <input type="text" placeholder="(11) 99999-9999" value={telefone} onChange={(e) => setTelefone(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">E-mail da empresa</label>
-              <input type="email" placeholder="contato@suaempresa.com" value={emailEmpresa} onChange={(e) => setEmailEmpresa(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              <input type="email" placeholder="contato@suaempresa.com" value={emailEmpresa} onChange={(e) => setEmailEmpresa(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Endereço</label>
-              <input type="text" placeholder="Rua, número, bairro, cidade" value={endereco} onChange={(e) => setEndereco(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              <input type="text" placeholder="Rua, número, bairro, cidade" value={endereco} onChange={(e) => setEndereco(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">CNPJ / CPF</label>
-              <input type="text" placeholder="00.000.000/0000-00 ou 000.000.000-00" value={documento} onChange={(e) => setDocumento(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              <input type="text" placeholder="00.000.000/0000-00 ou 000.000.000-00" value={documento} onChange={(e) => setDocumento(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
             </div>
 
             {mensagem && (
               <div className={`text-center text-sm py-3 rounded-lg ${
                 mensagem.startsWith("✅") ? "bg-green-50 text-green-700"
                   : mensagem.startsWith("❌") ? "bg-red-50 text-red-700"
-                    : "bg-blue-50 text-blue-700"
+                    : "bg-zinc-50 text-black"
               }`}>
                 {mensagem}
               </div>
             )}
 
-            <button type="submit" disabled={salvando} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors disabled:opacity-50">
+            <button type="submit" disabled={salvando} className="w-full bg-black hover:bg-zinc-800 text-white font-semibold py-3 rounded-lg transition-colors disabled:opacity-50">
               {salvando ? "Salvando..." : perfilExiste ? "Atualizar Perfil" : "Salvar Perfil"}
             </button>
           </form>
@@ -328,7 +328,7 @@ export default function Perfil() {
                 value={novaSenha}
                 onChange={(e) => setNovaSenha(e.target.value)}
                 minLength={6}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
               />
 
               <input
@@ -337,7 +337,7 @@ export default function Perfil() {
                 value={confirmarSenha}
                 onChange={(e) => setConfirmarSenha(e.target.value)}
                 minLength={6}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
               />
 
               {mensagemSenha && (
@@ -351,7 +351,7 @@ export default function Perfil() {
               <button
                 type="submit"
                 disabled={alterandoSenha}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg text-sm transition-colors disabled:opacity-50"
+                className="w-full bg-black hover:bg-zinc-800 text-white font-medium py-2 rounded-lg text-sm transition-colors disabled:opacity-50"
               >
                 {alterandoSenha ? "Alterando..." : "Alterar Senha"}
               </button>

@@ -176,7 +176,7 @@ export default function AdminPrivacidade() {
                     <p className="text-gray-400 text-sm">{s.email}</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs bg-blue-500/20 text-blue-400 px-2.5 py-1 rounded-full font-medium">
+                    <span className="text-xs bg-zinc-500/20 text-zinc-400 px-2.5 py-1 rounded-full font-medium">
                       {rotuloTipo[s.tipo_solicitacao] || s.tipo_solicitacao}
                     </span>
                     <span

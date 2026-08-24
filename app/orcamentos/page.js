@@ -190,7 +190,7 @@ export default function Orcamentos() {
             placeholder="🔍 Buscar por cliente, empresa ou e-mail..."
             value={busca}
             onChange={(e) => setBusca(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-4 py-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full border border-gray-300 rounded-lg px-4 py-3 pr-10 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
           />
           {busca && (
             <button
@@ -255,7 +255,7 @@ export default function Orcamentos() {
         {!carregando && orcamentos.length === 0 && (
           <div className="app-card p-8 text-center text-gray-500">
             <p className="mb-4">Você ainda não criou nenhum orçamento.</p>
-            <Link href="/app" className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+            <Link href="/app" className="inline-block bg-black hover:bg-zinc-800 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
               Criar primeiro orçamento
             </Link>
           </div>
@@ -322,7 +322,7 @@ export default function Orcamentos() {
                     </div>
 
                     <div className="text-right md:mr-4">
-                      <p className="text-2xl font-bold text-blue-600">R$ {Number(orc.total).toFixed(2)}</p>
+                      <p className="text-2xl font-bold text-black">R$ {Number(orc.total).toFixed(2)}</p>
                       <p className="text-xs text-gray-400">
                         {orc.itens?.length || 0} {orc.itens?.length === 1 ? "item" : "itens"}
                       </p>
@@ -337,7 +337,7 @@ export default function Orcamentos() {
                       </button>
                       <button
                         onClick={() => editarOrcamento(orc.id)}
-                        className="flex-1 md:flex-none text-blue-600 hover:text-white hover:bg-blue-600 border border-blue-600 text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+                        className="flex-1 md:flex-none text-black hover:text-white hover:bg-black border border-black text-sm font-medium px-4 py-2 rounded-lg transition-colors"
                       >
                         ✏️ Editar
                       </button>
