@@ -451,9 +451,14 @@ export default function Landing() {
           <p className="text-teal-700 text-sm mb-2">
             © 2026 OrçaFácil · Feito no Brasil
           </p>
-          <Link href="/privacidade" className="text-teal-700 text-sm underline hover:text-emerald-700">
-            Política de Privacidade
-          </Link>
+          <div className="flex items-center justify-center gap-4">
+            <Link href="/termos" className="text-teal-700 text-sm underline hover:text-emerald-700">
+              Termos de Uso
+            </Link>
+            <Link href="/privacidade" className="text-teal-700 text-sm underline hover:text-emerald-700">
+              Política de Privacidade
+            </Link>
+          </div>
         </div>
       </footer>
 

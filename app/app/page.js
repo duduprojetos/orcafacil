@@ -295,17 +295,23 @@ function toggleTemplate(texto) {
   const dataHoje = new Date().toLocaleDateString("pt-BR");
   const diasRestantes = calcularDiasRestantes(validade);
 
+  function possuiValoresInvalidos() {
+    const itemInvalido = itens.some((item) => {
+      const quantidade = Number(item.quantidade);
+      const valor = Number(item.valor);
+      return !Number.isFinite(quantidade) || quantidade <= 0 || !Number.isFinite(valor) || valor < 0;
+    });
+
+    return itemInvalido || !Number.isFinite(descontoNumero) || descontoNumero < 0;
+  }
+
    async function gerarOrcamento(e) {
     e.preventDefault();
     setSalvando(true);
     setMensagem("");
 
-    const itemInvalido = itens.find(
-      (item) => Number(item.quantidade) <= 0 || Number(item.valor) < 0
-    );
-
-    if (itemInvalido) {
-      setMensagem("❌ Verifique os itens: quantidade deve ser maior que zero e valor não pode ser negativo.");
+    if (possuiValoresInvalidos()) {
+      setMensagem("❌ Verifique os valores: quantidade deve ser maior que zero; preço e desconto não podem ser negativos.");
       setSalvando(false);
       return;
     }
@@ -382,6 +388,11 @@ function toggleTemplate(texto) {
   }
 
   async function baixarPDF() {
+    if (possuiValoresInvalidos()) {
+      setMensagem("❌ Não foi possível gerar o PDF: corrija quantidades ou valores negativos.");
+      return;
+    }
+
     const doc = new jsPDF();
     let yTopo = 15;
 

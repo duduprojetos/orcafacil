@@ -15,6 +15,7 @@ export default function Orcamentos() {
   const [filtroStatus, setFiltroStatus] = useState("todos");
   const [menuAbertoId, setMenuAbertoId] = useState(null);
   const [busca, setBusca] = useState("");
+  const [linkCopiadoId, setLinkCopiadoId] = useState(null);
 
   useEffect(() => {
     verificarLoginEBuscar();
@@ -123,6 +124,23 @@ export default function Orcamentos() {
 
   function editarOrcamento(id) {
     router.push(`/app?editar=${id}`);
+  }
+
+  async function copiarLink(orcamento) {
+    if (!orcamento.token_publico) {
+      alert("Link público indisponível para este orçamento.");
+      return;
+    }
+
+    const link = `${window.location.origin}/orcamento/${orcamento.token_publico}`;
+
+    try {
+      await navigator.clipboard.writeText(link);
+      setLinkCopiadoId(orcamento.id);
+      setTimeout(() => setLinkCopiadoId(null), 2500);
+    } catch {
+      window.prompt("Copie o link do orçamento:", link);
+    }
   }
 
   function formatarData(dataStr) {
@@ -329,6 +347,14 @@ export default function Orcamentos() {
                     </div>
 
                     <div className="flex gap-2 w-full md:w-auto flex-wrap">
+                      <button
+                        onClick={() => copiarLink(orc)}
+                        disabled={!orc.token_publico}
+                        title={orc.token_publico ? "Copiar link público" : "Link público indisponível"}
+                        className="flex-1 md:flex-none text-teal-700 hover:text-white hover:bg-teal-600 border border-teal-600 text-sm font-medium px-4 py-2 rounded-lg transition-colors disabled:cursor-not-allowed disabled:opacity-40"
+                      >
+                        {linkCopiadoId === orc.id ? "✅ Copiado!" : "🔗 Copiar link"}
+                      </button>
                       <button
                         onClick={() => duplicarOrcamento(orc)}
                         className="flex-1 md:flex-none text-purple-600 hover:text-white hover:bg-purple-600 border border-purple-600 text-sm font-medium px-4 py-2 rounded-lg transition-colors"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
@@ -11,8 +11,26 @@ export default function Login() {
   const [modo, setModo] = useState("login");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [confirmarSenha, setConfirmarSenha] = useState("");
   const [mensagem, setMensagem] = useState("");
   const [carregando, setCarregando] = useState(false);
+
+  useEffect(() => {
+    // O evento abaixo é a fonte principal; o timer cobre links de recuperação
+    // cujo hash seja processado pelo cliente antes da inscrição no listener.
+    const recoveryFallback = window.setTimeout(() => {
+      if (window.location.hash.includes("type=recovery")) setModo("redefinir");
+    }, 0);
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "PASSWORD_RECOVERY") setModo("redefinir");
+    });
+
+    return () => {
+      window.clearTimeout(recoveryFallback);
+      subscription.unsubscribe();
+    };
+  }, []);
 
   async function fazerLogin(e) {
     e.preventDefault();
@@ -33,6 +51,51 @@ export default function Login() {
 
     setMensagem("✅ Login realizado! Redirecionando...");
     setTimeout(() => router.push("/dashboard"), 1000);
+  }
+
+  async function enviarRecuperacao(e) {
+    e.preventDefault();
+    setCarregando(true);
+    setMensagem("");
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/login`,
+    });
+
+    setCarregando(false);
+    setMensagem(error
+      ? "❌ " + error.message
+      : "✅ Enviamos um link de recuperação para o seu e-mail.");
+  }
+
+  async function redefinirSenha(e) {
+    e.preventDefault();
+    setMensagem("");
+
+    if (senha.length < 6) {
+      setMensagem("❌ A senha deve ter no mínimo 6 caracteres.");
+      return;
+    }
+    if (senha !== confirmarSenha) {
+      setMensagem("❌ As senhas não coincidem.");
+      return;
+    }
+
+    setCarregando(true);
+    const { error } = await supabase.auth.updateUser({ password: senha });
+    setCarregando(false);
+
+    if (error) {
+      setMensagem("❌ " + error.message);
+      return;
+    }
+
+    await supabase.auth.signOut();
+    setSenha("");
+    setConfirmarSenha("");
+    setModo("login");
+    setMensagem("✅ Senha alterada. Entre com a nova senha.");
+    window.history.replaceState(null, "", "/login");
   }
 
   async function fazerCadastro(e) {
@@ -96,16 +159,24 @@ export default function Login() {
           </div>
 
           <div className="mb-8">
-            <span className="kicker mb-4">{modo === "login" ? "Área do usuário" : "Comece grátis"}</span>
+            <span className="kicker mb-4">
+              {modo === "login" ? "Área do usuário" : modo === "cadastro" ? "Comece grátis" : "Segurança da conta"}
+            </span>
             <h1 className="app-title text-3xl font-bold">
-              {modo === "login" ? "Entre na sua conta" : "Crie sua conta"}
+              {modo === "login" ? "Entre na sua conta" : modo === "cadastro" ? "Crie sua conta" : modo === "recuperacao" ? "Recupere sua senha" : "Crie uma nova senha"}
             </h1>
             <p className="mt-2 text-emerald-800">
-              {modo === "login" ? "Acesse seus orçamentos e acompanhe seus clientes." : "Leva poucos segundos para começar a vender com mais presença."}
+              {modo === "login"
+                ? "Acesse seus orçamentos e acompanhe seus clientes."
+                : modo === "cadastro"
+                  ? "Leva poucos segundos para começar a vender com mais presença."
+                  : modo === "recuperacao"
+                    ? "Informe seu e-mail para receber o link de recuperação."
+                    : "Escolha uma senha segura para voltar à sua conta."}
             </p>
           </div>
 
-          <div className="mb-6 grid grid-cols-2 gap-2 rounded-xl border border-emerald-200 bg-emerald-100 p-1">
+          {(modo === "login" || modo === "cadastro") && <div className="mb-6 grid grid-cols-2 gap-2 rounded-xl border border-emerald-200 bg-emerald-100 p-1">
             <button
               onClick={() => { setModo("login"); setMensagem(""); }}
               className={`rounded-lg py-2.5 text-sm font-bold ${modo === "login" ? "bg-white text-emerald-800 shadow-sm" : "text-teal-700"}`}
@@ -118,10 +189,13 @@ export default function Login() {
             >
               Cadastro
             </button>
-          </div>
+          </div>}
 
-          <form onSubmit={modo === "login" ? fazerLogin : fazerCadastro} className="space-y-4">
-            <label className="block">
+          <form
+            onSubmit={modo === "login" ? fazerLogin : modo === "cadastro" ? fazerCadastro : modo === "recuperacao" ? enviarRecuperacao : redefinirSenha}
+            className="space-y-4"
+          >
+            {modo !== "redefinir" && <label className="block">
               <span className="mb-1.5 block text-sm font-semibold text-emerald-800">E-mail</span>
               <input
                 type="email"
@@ -131,9 +205,11 @@ export default function Login() {
                 required
                 className="w-full rounded-lg border border-emerald-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500"
               />
-            </label>
-            <label className="block">
-              <span className="mb-1.5 block text-sm font-semibold text-emerald-800">Senha</span>
+            </label>}
+            {modo !== "recuperacao" && <label className="block">
+              <span className="mb-1.5 block text-sm font-semibold text-emerald-800">
+                {modo === "redefinir" ? "Nova senha" : "Senha"}
+              </span>
               <input
                 type="password"
                 placeholder="Mínimo 6 caracteres"
@@ -143,7 +219,30 @@ export default function Login() {
                 minLength={6}
                 className="w-full rounded-lg border border-emerald-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500"
               />
-            </label>
+            </label>}
+
+            {modo === "redefinir" && <label className="block">
+              <span className="mb-1.5 block text-sm font-semibold text-emerald-800">Confirme a nova senha</span>
+              <input
+                type="password"
+                placeholder="Digite a senha novamente"
+                value={confirmarSenha}
+                onChange={(e) => setConfirmarSenha(e.target.value)}
+                required
+                minLength={6}
+                className="w-full rounded-lg border border-emerald-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500"
+              />
+            </label>}
+
+            {modo === "login" && (
+              <button
+                type="button"
+                onClick={() => { setModo("recuperacao"); setMensagem(""); }}
+                className="block w-full text-right text-sm font-semibold text-emerald-700 hover:text-emerald-900 hover:underline"
+              >
+                Esqueci minha senha
+              </button>
+            )}
 
             {mensagem && (
               <div className={`rounded-lg px-4 py-3 text-center text-sm font-semibold ${mensagem.startsWith("✅") ? "bg-emerald-600 text-white" : "bg-red-50 text-red-700 border border-red-200"}`}>
@@ -160,12 +259,26 @@ export default function Login() {
                 ? "Aguarde..."
                 : modo === "login"
                   ? "Entrar na plataforma"
-                  : "Criar conta grátis"}
+                  : modo === "cadastro"
+                    ? "Criar conta grátis"
+                    : modo === "recuperacao"
+                      ? "Enviar link de recuperação"
+                      : "Salvar nova senha"}
             </button>
+
+            {(modo === "recuperacao" || modo === "redefinir") && (
+              <button
+                type="button"
+                onClick={() => { setModo("login"); setMensagem(""); }}
+                className="w-full text-sm font-semibold text-emerald-700 hover:text-emerald-900"
+              >
+                ← Voltar para o login
+              </button>
+            )}
           </form>
 
           <p className="mt-6 text-center text-xs text-teal-700">
-            Ao continuar, você concorda com a nossa <Link href="/privacidade" className="font-bold text-emerald-700 underline">Política de Privacidade</Link>.
+            Ao continuar, você concorda com os nossos <Link href="/termos" className="font-bold text-emerald-700 underline">Termos de Uso</Link> e com a <Link href="/privacidade" className="font-bold text-emerald-700 underline">Política de Privacidade</Link>.
           </p>
         </div>
       </div>
