@@ -622,7 +622,15 @@ function toggleTemplate(texto) {
           </div>
 
           {!orcamentoGerado && (
-            <form onSubmit={gerarOrcamento} className="space-y-6">
+            <form
+  onSubmit={gerarOrcamento}
+  onKeyDown={(e) => {
+    if (e.key === "Enter" && e.target.tagName !== "TEXTAREA") {
+      e.preventDefault();
+    }
+  }}
+  className="space-y-6"
+>
 
               <div>
                 <h2 className="text-lg font-semibold text-gray-700 mb-3">Sua Empresa</h2>
