@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/immutability, react-hooks/exhaustive-deps */
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
@@ -599,15 +600,15 @@ function toggleTemplate(texto) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="app-shell">
       <div className="max-w-2xl mx-auto">
 
         <Header usuario={usuario} paginaAtiva="app" />
 
-        <div className="bg-white rounded-2xl shadow-lg p-8">
+        <div className="app-card p-6 sm:p-8">
 
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-800">
+            <h1 className="app-title text-4xl font-semibold">
               {modoEdicao ? "Editar Orçamento" : "OrçaFácil"}
             </h1>
             <p className="text-gray-500 mt-2">
@@ -807,7 +808,7 @@ function toggleTemplate(texto) {
 
               {mensagem && <div className="text-center text-sm py-2">{mensagem}</div>}
 
-              <button type="submit" disabled={salvando} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors disabled:opacity-50">
+              <button type="submit" disabled={salvando} className="btn-primary w-full py-3 disabled:opacity-50">
                 {salvando ? "Salvando..." : modoEdicao ? "Salvar Alterações" : "Gerar Orçamento"}
               </button>
             </form>

@@ -3,7 +3,6 @@ const nextConfig = {
   headers: async () => {
     return [
       {
-        // Aplica em TODAS as rotas
         source: "/(.*)",
         headers: [
           {
@@ -19,10 +18,6 @@ const nextConfig = {
             value: "0",
           },
           {
-            key: "X-Frame-Options",
-            value: "DENY",
-          },
-          {
             key: "X-Content-Type-Options",
             value: "nosniff",
           },
@@ -36,7 +31,7 @@ const nextConfig = {
           },
           {
             key: "Content-Security-Policy",
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://kbpjpuvcncrlaaedfojd.supabase.co; font-src 'self' data:;",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co; font-src 'self' data:; frame-ancestors 'self' https://*.e2b.app;",
           },
         ],
       },

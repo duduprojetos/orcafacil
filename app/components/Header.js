@@ -16,104 +16,104 @@ export default function Header({ usuario, paginaAtiva = "" }) {
 
   const links = [
     { href: "/dashboard", label: "Dashboard", icone: "📊", key: "dashboard" },
-    { href: "/app", label: "Novo Orçamento", icone: "➕", key: "app" },
+    { href: "/app", label: "Novo", icone: "✦", key: "app" },
     { href: "/orcamentos", label: "Orçamentos", icone: "📄", key: "orcamentos" },
     { href: "/perfil", label: "Perfil", icone: "⚙️", key: "perfil" },
   ];
 
-    if (usuario?.email === "admin@edu.com") {
-  links.push({ href: "/admin", label: "Admin", icone: "🔒", key: "admin" });
-}
+  if (usuario?.email === "admin@edu.com") {
+    links.push({ href: "/admin", label: "Admin", icone: "🔒", key: "admin" });
+  }
 
   return (
     <>
-      {/* Barra superior */}
-      <div className="flex justify-between items-center mb-4 gap-2">
+      <div className="app-card sticky top-4 z-30 mb-8 px-4 py-3">
+        <div className="flex items-center justify-between gap-3">
+          <Link href="/dashboard" className="flex min-w-0 items-center gap-3">
+            <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-[#16241c] text-[#fffdf7] shadow-lg" style={{ fontFamily: "var(--font-display)" }}>
+              O
+            </div>
+            <div className="min-w-0">
+              <p className="app-title text-xl font-semibold leading-none">OrçaFácil</p>
+              <p className="truncate text-xs text-[#5c6b60]">{usuario?.email}</p>
+            </div>
+          </Link>
 
-        {/* Email do usuário */}
-        <span className="text-gray-600 text-sm truncate flex-1">
-          👤 {usuario?.email}
-        </span>
-
-        {/* MENU DESKTOP (visível em telas grandes) */}
-        <div className="hidden md:flex gap-4 items-center text-sm">
-          {links.map((link) => (
-            <Link
-              key={link.key}
-              href={link.href}
-              className={`font-medium transition-colors ${
-                paginaAtiva === link.key
-                  ? "text-blue-600"
-                  : "text-gray-700 hover:text-blue-600"
-              }`}
+          <nav className="hidden items-center gap-1 md:flex">
+            {links.map((link) => {
+              const ativo = paginaAtiva === link.key;
+              return (
+                <Link
+                  key={link.key}
+                  href={link.href}
+                  className={`rounded-full px-4 py-2 text-sm font-semibold ${
+                    ativo
+                      ? "bg-[#16241c] text-[#fffdf7] shadow-md"
+                      : "text-[#5c6b60] hover:bg-[#16241c]/5 hover:text-[#16241c]"
+                  }`}
+                >
+                  <span className="mr-1.5">{link.icone}</span>{link.label}
+                </Link>
+              );
+            })}
+            <button
+              onClick={sair}
+              className="ml-1 rounded-full border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-700 hover:bg-red-100"
             >
-              {link.icone} {link.label}
-            </Link>
-          ))}
+              Sair
+            </button>
+          </nav>
+
           <button
-            onClick={sair}
-            className="text-red-600 hover:text-red-800 font-medium"
+            onClick={() => setMenuAberto(!menuAberto)}
+            className="grid h-11 w-11 place-items-center rounded-2xl border border-[#d9dccd] bg-[#fffdf7]/80 text-[#16241c] shadow-sm md:hidden"
+            aria-label="Menu"
           >
-            Sair
+            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {menuAberto ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7h16M4 12h16M4 17h16" />
+              )}
+            </svg>
           </button>
         </div>
-
-        {/* MENU MOBILE (só aparece em telas pequenas) */}
-        <button
-          onClick={() => setMenuAberto(!menuAberto)}
-          className="md:hidden bg-gray-100 hover:bg-gray-200 p-2 rounded-lg transition-colors"
-          aria-label="Menu"
-        >
-          <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            {menuAberto ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
-        </button>
       </div>
 
-      {/* DROPDOWN MOBILE */}
       {menuAberto && (
         <>
-          {/* Overlay pra fechar clicando fora */}
           <div
-            className="fixed inset-0 bg-black/20 z-40 md:hidden"
+            className="fixed inset-0 z-40 bg-[#16241c]/35 backdrop-blur-sm md:hidden"
             onClick={() => setMenuAberto(false)}
           />
 
-          {/* Menu */}
-          <div className="fixed top-0 right-0 bottom-0 w-72 bg-white shadow-2xl z-50 md:hidden flex flex-col">
-
-            {/* Cabeçalho do menu */}
-            <div className="bg-gradient-to-br from-blue-600 to-blue-700 text-white p-6">
-              <div className="flex justify-between items-start mb-4">
-                <div className="text-3xl">👤</div>
-                <button
-                  onClick={() => setMenuAberto(false)}
-                  className="text-white/80 hover:text-white"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="fixed bottom-0 right-0 top-0 z-50 flex w-80 max-w-[88vw] flex-col border-l border-[#d9dccd] bg-[#fffdf7] shadow-2xl md:hidden">
+            <div className="relative overflow-hidden bg-[#16241c] p-6 text-[#fffdf7]">
+              <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-emerald-400/20 blur-2xl" />
+              <div className="relative mb-5 flex items-start justify-between">
+                <div className="grid h-12 w-12 place-items-center rounded-2xl bg-[#fffdf7] text-[#16241c] font-bold" style={{ fontFamily: "var(--font-display)" }}>
+                  O
+                </div>
+                <button onClick={() => setMenuAberto(false)} className="text-[#fffdf7]/70 hover:text-[#fffdf7]">
+                  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               </div>
-              <p className="text-xs text-blue-100 uppercase font-semibold">Logado como</p>
-              <p className="text-sm font-medium truncate">{usuario?.email}</p>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-emerald-100/70">Logado como</p>
+              <p className="truncate text-sm font-semibold">{usuario?.email}</p>
             </div>
 
-            {/* Links */}
-            <nav className="flex-1 p-4 space-y-1">
+            <nav className="flex-1 space-y-2 p-4">
               {links.map((link) => (
                 <Link
                   key={link.key}
                   href={link.href}
                   onClick={() => setMenuAberto(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors ${
+                  className={`flex items-center gap-3 rounded-2xl px-4 py-3 font-semibold ${
                     paginaAtiva === link.key
-                      ? "bg-blue-50 text-blue-700"
-                      : "text-gray-700 hover:bg-gray-100"
+                      ? "bg-[#16241c] text-[#fffdf7]"
+                      : "text-[#26372d] hover:bg-[#16241c]/5"
                   }`}
                 >
                   <span className="text-xl">{link.icone}</span>
@@ -122,17 +122,15 @@ export default function Header({ usuario, paginaAtiva = "" }) {
               ))}
             </nav>
 
-            {/* Botão sair */}
-            <div className="p-4 border-t border-gray-100">
+            <div className="border-t border-[#d9dccd] p-4">
               <button
                 onClick={sair}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 font-medium transition-colors"
+                className="flex w-full items-center justify-center gap-3 rounded-2xl bg-red-50 px-4 py-3 font-bold text-red-700 hover:bg-red-100"
               >
                 <span className="text-xl">🚪</span>
                 Sair
               </button>
             </div>
-
           </div>
         </>
       )}

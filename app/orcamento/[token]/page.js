@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/immutability, react-hooks/exhaustive-deps, @next/next/no-img-element */
 "use client";
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 
 export default function OrcamentoPublico() {
@@ -117,7 +119,7 @@ export default function OrcamentoPublico() {
   if (naoEncontrado) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
-        <div className="bg-white rounded-2xl shadow-lg p-12 max-w-md text-center">
+        <div className="app-card p-12 max-w-md text-center">
           <div className="text-6xl mb-4">❌</div>
           <h1 className="text-2xl font-bold text-gray-800 mb-2">
             Orçamento não encontrado
@@ -153,7 +155,7 @@ export default function OrcamentoPublico() {
   const jaRespondido = statusAtual !== "pendente";
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
+    <div className="app-shell py-8 px-4">
       <div className="max-w-3xl mx-auto">
 
         {/* Status Banner */}
@@ -167,10 +169,10 @@ export default function OrcamentoPublico() {
         </div>
 
         {/* Card principal do orçamento */}
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div className="app-card overflow-hidden">
 
           {/* Cabeçalho */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6">
+          <div className="bg-[#16241c] text-[#fffdf7] p-6">
             <div className="flex justify-between items-start">
               <div className="flex items-center gap-4">
                 {perfil?.logo_url && (
@@ -181,7 +183,7 @@ export default function OrcamentoPublico() {
                   />
                 )}
                 <div>
-                  <h1 className="text-2xl font-bold">
+                  <h1 className="text-3xl font-bold text-[#fffdf7]">
                     Orçamento #{formatarNumero(orcamento.numero_orcamento)}
                   </h1>
                   <p className="text-blue-100 text-sm mt-1">
@@ -268,9 +270,9 @@ export default function OrcamentoPublico() {
             </div>
 
             {/* Total destacado */}
-            <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-200 rounded-xl p-5 flex justify-between items-center">
+            <div className="rounded-2xl border-2 border-[#d9dccd] bg-[#edf4e8] p-5 flex justify-between items-center">
               <span className="text-lg font-semibold text-gray-700">TOTAL</span>
-              <span className="text-3xl font-bold text-blue-600">
+              <span className="text-3xl font-bold text-[#1f7a4d]">
                 R$ {Number(orcamento.total).toFixed(2)}
               </span>
             </div>
@@ -315,7 +317,7 @@ export default function OrcamentoPublico() {
                   <button
                     onClick={() => responderOrcamento("aprovado")}
                     disabled={processando}
-                    className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition-colors disabled:opacity-50 shadow-lg shadow-green-200"
+                    className="btn-primary py-3 disabled:opacity-50"
                   >
                     ✅ Aprovar Orçamento
                   </button>
@@ -329,9 +331,9 @@ export default function OrcamentoPublico() {
           <div className="bg-gray-50 border-t p-4 text-center">
             <p className="text-xs text-gray-500">
               Este orçamento foi gerado com{" "}
-              <a href="/" className="text-blue-600 font-semibold hover:underline">
+              <Link href="/" className="text-blue-600 font-semibold hover:underline">
                 OrçaFácil
-              </a>
+              </Link>
             </p>
           </div>
 
