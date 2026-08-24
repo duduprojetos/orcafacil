@@ -593,8 +593,8 @@ function toggleTemplate(texto) {
 
   if (verificandoLogin) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-gray-500">Carregando...</p>
+      <div className="min-h-screen bg-emerald-50 flex items-center justify-center">
+        <p className="text-teal-700">Carregando...</p>
       </div>
     );
   }
@@ -611,7 +611,7 @@ function toggleTemplate(texto) {
             <h1 className="app-title text-4xl font-semibold">
               {modoEdicao ? "Editar Orçamento" : "OrçaFácil"}
             </h1>
-            <p className="text-gray-500 mt-2">
+            <p className="text-teal-700 mt-2">
               {modoEdicao ? "Faça as alterações necessárias e salve" : "Crie orçamentos profissionais em menos de 1 minuto"}
             </p>
 
@@ -634,29 +634,29 @@ function toggleTemplate(texto) {
 >
 
               <div>
-                <h2 className="text-lg font-semibold text-gray-700 mb-3">Sua Empresa</h2>
-                <input type="text" placeholder="Nome da empresa" value={empresa} onChange={(e) => setEmpresa(e.target.value)} required className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-3 focus:outline-none focus:ring-2 focus:ring-black" />
-                <input type="text" placeholder="Telefone" value={telefone} onChange={(e) => setTelefone(formatarTelefone(e.target.value))} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
+                <h2 className="text-lg font-semibold text-emerald-800 mb-3">Sua Empresa</h2>
+                <input type="text" placeholder="Nome da empresa" value={empresa} onChange={(e) => setEmpresa(e.target.value)} required className="w-full border border-emerald-300 rounded-lg px-4 py-2 mb-3 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                <input type="text" placeholder="Telefone" value={telefone} onChange={(e) => setTelefone(formatarTelefone(e.target.value))} className="w-full border border-emerald-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
               </div>
 
               <div>
-                <h2 className="text-lg font-semibold text-gray-700 mb-3">Cliente</h2>
+                <h2 className="text-lg font-semibold text-emerald-800 mb-3">Cliente</h2>
                 <div className="space-y-3">
-                  <input type="text" placeholder="Nome do cliente *" value={cliente} onChange={(e) => setCliente(e.target.value)} required className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
+                  <input type="text" placeholder="Nome do cliente *" value={cliente} onChange={(e) => setCliente(e.target.value)} required className="w-full border border-emerald-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
                   <div className="relative">
-                    <input type="tel" placeholder="📱 Telefone / WhatsApp *" value={clienteTelefone} onChange={(e) => setClienteTelefone(formatarTelefone(e.target.value))} required className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
+                    <input type="tel" placeholder="📱 Telefone / WhatsApp *" value={clienteTelefone} onChange={(e) => setClienteTelefone(formatarTelefone(e.target.value))} required className="w-full border border-emerald-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
                     <p className="text-xs text-green-600 mt-1">💬 Você poderá enviar o orçamento direto por WhatsApp!</p>
                   </div>
-                  <input type="email" placeholder="E-mail (opcional)" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
-                  <input type="text" placeholder="CPF / CNPJ (opcional)" value={clienteDocumento} onChange={(e) => setClienteDocumento(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
-                  <input type="text" placeholder="Endereço (opcional)" value={clienteEndereco} onChange={(e) => setClienteEndereco(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
+                  <input type="email" placeholder="E-mail (opcional)" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border border-emerald-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                  <input type="text" placeholder="CPF / CNPJ (opcional)" value={clienteDocumento} onChange={(e) => setClienteDocumento(e.target.value)} className="w-full border border-emerald-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                  <input type="text" placeholder="Endereço (opcional)" value={clienteEndereco} onChange={(e) => setClienteEndereco(e.target.value)} className="w-full border border-emerald-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
                 </div>
               </div>
 
               <div>
                 <div className="flex justify-between items-center mb-3">
-                  <h2 className="text-lg font-semibold text-gray-700">Itens do Orçamento</h2>
-                  <button type="button" onClick={adicionarItem} className="text-sm bg-zinc-100 hover:bg-zinc-200 text-black font-medium px-3 py-1 rounded-lg transition-colors">
+                  <h2 className="text-lg font-semibold text-emerald-800">Itens do Orçamento</h2>
+                  <button type="button" onClick={adicionarItem} className="text-sm bg-emerald-100 hover:bg-emerald-200 text-emerald-950 font-medium px-3 py-1 rounded-lg transition-colors">
                     + Adicionar Item
                   </button>
                 </div>
@@ -664,9 +664,9 @@ function toggleTemplate(texto) {
                 {itens.map((item, index) => {
                   const sub = calcularSubtotal(item);
                   return (
-                    <div key={index} className="border border-gray-200 rounded-lg p-4 mb-3 bg-gray-50">
+                    <div key={index} className="border border-emerald-200 rounded-lg p-4 mb-3 bg-emerald-50">
                       <div className="flex justify-between items-center mb-3">
-                        <span className="text-sm font-semibold text-gray-700">Item {index + 1}</span>
+                        <span className="text-sm font-semibold text-emerald-800">Item {index + 1}</span>
                         {itens.length > 1 && (
                           <button type="button" onClick={() => removerItem(index)} className="text-xs text-red-500 hover:text-red-700 font-medium">
                             ✕ Remover
@@ -674,32 +674,32 @@ function toggleTemplate(texto) {
                         )}
                       </div>
 
-                      <input type="text" placeholder="Produto ou serviço *" value={item.produto} onChange={(e) => atualizarItem(index, "produto", e.target.value)} required className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-2 focus:outline-none focus:ring-2 focus:ring-black" />
-                      <input type="text" placeholder="Descrição detalhada (opcional)" value={item.descricao} onChange={(e) => atualizarItem(index, "descricao", e.target.value)} className="w-full border border-gray-200 rounded-lg px-4 py-2 mb-3 text-sm focus:outline-none focus:ring-2 focus:ring-black" />
+                      <input type="text" placeholder="Produto ou serviço *" value={item.produto} onChange={(e) => atualizarItem(index, "produto", e.target.value)} required className="w-full border border-emerald-300 rounded-lg px-4 py-2 mb-2 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                      <input type="text" placeholder="Descrição detalhada (opcional)" value={item.descricao} onChange={(e) => atualizarItem(index, "descricao", e.target.value)} className="w-full border border-emerald-200 rounded-lg px-4 py-2 mb-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
 
                       <div className="grid grid-cols-3 gap-2 mb-2">
                         <div>
-                          <label className="block text-xs text-gray-500 mb-1">Qtd</label>
-                            <input type="number" step="0.01" min="0.01" placeholder="1" value={item.quantidade} onChange={(e) => atualizarItem(index, "quantidade", e.target.value)} required className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black" />                        </div>
+                          <label className="block text-xs text-teal-700 mb-1">Qtd</label>
+                            <input type="number" step="0.01" min="0.01" placeholder="1" value={item.quantidade} onChange={(e) => atualizarItem(index, "quantidade", e.target.value)} required className="w-full border border-emerald-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500" />                        </div>
                         <div>
-                          <label className="block text-xs text-gray-500 mb-1">Unidade</label>
-                          <select value={item.unidade} onChange={(e) => atualizarItem(index, "unidade", e.target.value)} className="w-full border border-gray-300 rounded-lg px-2 py-2 focus:outline-none focus:ring-2 focus:ring-black bg-white">
+                          <label className="block text-xs text-teal-700 mb-1">Unidade</label>
+                          <select value={item.unidade} onChange={(e) => atualizarItem(index, "unidade", e.target.value)} className="w-full border border-emerald-300 rounded-lg px-2 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white">
                             {UNIDADES.map(u => (<option key={u.valor} value={u.valor}>{u.label}</option>))}
                           </select>
                         </div>
                         <div>
-                          <label className="block text-xs text-gray-500 mb-1">Valor unit. (R$)</label>
-                          <input type="number" step="0.01" min="0" placeholder="0,00" value={item.valor} onChange={(e) => atualizarItem(index, "valor", e.target.value)} required className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
+                          <label className="block text-xs text-teal-700 mb-1">Valor unit. (R$)</label>
+                          <input type="number" step="0.01" min="0" placeholder="0,00" value={item.valor} onChange={(e) => atualizarItem(index, "valor", e.target.value)} required className="w-full border border-emerald-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
                         </div>
                       </div>
 
                       {item.unidade === "outro" && (
-                        <input type="text" placeholder="Digite a unidade" value={item.unidadeCustom} onChange={(e) => atualizarItem(index, "unidadeCustom", e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-2 text-sm focus:outline-none focus:ring-2 focus:ring-black" />
+                        <input type="text" placeholder="Digite a unidade" value={item.unidadeCustom} onChange={(e) => atualizarItem(index, "unidadeCustom", e.target.value)} className="w-full border border-emerald-300 rounded-lg px-4 py-2 mb-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
                       )}
 
                       {sub > 0 && (
-                        <div className="text-right text-sm text-gray-600 mt-2 pt-2 border-t border-gray-200">
-                          Subtotal: <span className="font-semibold text-gray-900">R$ {sub.toFixed(2)}</span>
+                        <div className="text-right text-sm text-emerald-800 mt-2 pt-2 border-t border-emerald-200">
+                          Subtotal: <span className="font-semibold text-emerald-950">R$ {sub.toFixed(2)}</span>
                         </div>
                       )}
                     </div>
@@ -708,20 +708,20 @@ function toggleTemplate(texto) {
               </div>
 
               {subtotal > 0 && (
-                <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
-                  <div className="flex justify-between items-center text-gray-700">
+                <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 space-y-3">
+                  <div className="flex justify-between items-center text-emerald-800">
                     <span>Subtotal</span>
                     <span className="font-medium">R$ {subtotal.toFixed(2)}</span>
                   </div>
 
                   <div className="border-t pt-3">
                     <div className="flex items-center gap-2 mb-2">
-                      <label className="text-sm font-medium text-gray-700">Desconto</label>
-                      <div className="flex bg-white border border-gray-300 rounded-lg overflow-hidden text-xs">
-                        <button type="button" onClick={() => setDescontoTipo("percentual")} className={`px-3 py-1 font-semibold ${descontoTipo === "percentual" ? "bg-black text-white" : "text-gray-600 hover:bg-gray-100"}`}>%</button>
-                        <button type="button" onClick={() => setDescontoTipo("fixo")} className={`px-3 py-1 font-semibold ${descontoTipo === "fixo" ? "bg-black text-white" : "text-gray-600 hover:bg-gray-100"}`}>R$</button>
+                      <label className="text-sm font-medium text-emerald-800">Desconto</label>
+                      <div className="flex bg-white border border-emerald-300 rounded-lg overflow-hidden text-xs">
+                        <button type="button" onClick={() => setDescontoTipo("percentual")} className={`px-3 py-1 font-semibold ${descontoTipo === "percentual" ? "bg-emerald-600 text-white" : "text-emerald-800 hover:bg-emerald-100"}`}>%</button>
+                        <button type="button" onClick={() => setDescontoTipo("fixo")} className={`px-3 py-1 font-semibold ${descontoTipo === "fixo" ? "bg-emerald-600 text-white" : "text-emerald-800 hover:bg-emerald-100"}`}>R$</button>
                       </div>
-                      <input type="number" step="0.01" min="0" placeholder="0" value={descontoValor} onChange={(e) => setDescontoValor(e.target.value)} className="flex-1 border border-gray-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-black" />
+                      <input type="number" step="0.01" min="0" placeholder="0" value={descontoValor} onChange={(e) => setDescontoValor(e.target.value)} className="flex-1 border border-emerald-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
                     </div>
 
                     {valorDesconto > 0 && (
@@ -732,17 +732,17 @@ function toggleTemplate(texto) {
                     )}
                   </div>
 
-                  <div className="flex justify-between items-center bg-zinc-50 border border-zinc-200 rounded-lg p-3 -mx-1">
-                    <span className="text-base font-semibold text-gray-700">Total</span>
-                    <span className="text-2xl font-bold text-black">R$ {totalGeral.toFixed(2)}</span>
+                  <div className="flex justify-between items-center bg-emerald-50 border border-emerald-200 rounded-lg p-3 -mx-1">
+                    <span className="text-base font-semibold text-emerald-800">Total</span>
+                    <span className="text-2xl font-bold text-emerald-950">R$ {totalGeral.toFixed(2)}</span>
                   </div>
                 </div>
               )}
 
               <div>
-                <h2 className="text-lg font-semibold text-gray-700 mb-3">Validade do Orçamento</h2>
+                <h2 className="text-lg font-semibold text-emerald-800 mb-3">Validade do Orçamento</h2>
                 <div className="flex gap-3 items-center">
-                  <input type="date" value={validade} onChange={(e) => setValidade(e.target.value)} className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
+                  <input type="date" value={validade} onChange={(e) => setValidade(e.target.value)} className="flex-1 border border-emerald-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
                   {diasRestantes !== null && (
                     <span className={`text-sm font-semibold px-3 py-2 rounded-lg ${
                       diasRestantes < 0 ? "bg-red-100 text-red-700"
@@ -753,19 +753,19 @@ function toggleTemplate(texto) {
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-gray-500 mt-1">💡 Padrão de 30 dias. Você pode alterar.</p>
+                <p className="text-xs text-teal-700 mt-1">💡 Padrão de 30 dias. Você pode alterar.</p>
               </div>
 
               <div>
                 <div className="flex justify-between items-center mb-3">
-                  <h2 className="text-lg font-semibold text-gray-700">
-                    Observações <span className="text-xs text-gray-400 font-normal ml-2">(opcional)</span>
+                  <h2 className="text-lg font-semibold text-emerald-800">
+                    Observações <span className="text-xs text-emerald-500 font-normal ml-2">(opcional)</span>
                   </h2>
-                  <span className="text-xs text-gray-400">{observacoes.length}/500</span>
+                  <span className="text-xs text-emerald-500">{observacoes.length}/500</span>
                 </div>
 
                 <div className="mb-3">
-  <p className="text-xs text-gray-500 mb-2">✨ Clique para adicionar/remover:</p>
+  <p className="text-xs text-teal-700 mb-2">✨ Clique para adicionar/remover:</p>
   <div className="flex flex-wrap gap-2">
     {TEMPLATES_OBSERVACOES.map((template, i) => {
       const ativo = templateEstaAtivo(template.texto);
@@ -777,7 +777,7 @@ function toggleTemplate(texto) {
           className={`text-xs font-medium px-3 py-1.5 rounded-full transition-all border ${
             ativo
               ? "bg-green-500 hover:bg-green-600 text-white border-green-500 shadow-md"
-              : "bg-zinc-50 hover:bg-zinc-100 text-black border-zinc-200"
+              : "bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border-emerald-200"
           }`}
         >
           {ativo && "✓ "}{template.label}
@@ -801,9 +801,9 @@ function toggleTemplate(texto) {
                   value={observacoes}
                   onChange={(e) => setObservacoes(e.target.value.slice(0, 500))}
                   rows={4}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black resize-none"
+                  className="w-full border border-emerald-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
                 />
-                <p className="text-xs text-gray-500 mt-1">💡 Aparecerá no PDF do orçamento</p>
+                <p className="text-xs text-teal-700 mt-1">💡 Aparecerá no PDF do orçamento</p>
               </div>
 
               {mensagem && <div className="text-center text-sm py-2">{mensagem}</div>}
@@ -817,43 +817,43 @@ function toggleTemplate(texto) {
           {orcamentoGerado && (
             <div className="space-y-6">
               <div className="text-center border-b pb-4">
-                <h1 className="text-2xl font-bold text-gray-800">ORÇAMENTO #{formatarNumeroOrcamento(numeroOrcamento)}</h1>
-                <p className="text-sm text-gray-500 mt-1">Data: {dataHoje}</p>
+                <h1 className="text-2xl font-bold text-emerald-900">ORÇAMENTO #{formatarNumeroOrcamento(numeroOrcamento)}</h1>
+                <p className="text-sm text-teal-700 mt-1">Data: {dataHoje}</p>
                 {validade && (<p className="text-sm text-red-600 mt-1 font-medium">Válido até: {formatarDataBR(validade)}</p>)}
               </div>
 
               <div className="border-b pb-4">
-                <h2 className="text-sm text-gray-500 uppercase">De</h2>
-                <p className="text-lg font-semibold text-gray-800">{empresa}</p>
-                <p className="text-gray-600">{telefone}</p>
-                {perfilCompleto?.email_empresa && <p className="text-gray-600 text-sm">{perfilCompleto.email_empresa}</p>}
-                {perfilCompleto?.endereco && <p className="text-gray-600 text-sm">{perfilCompleto.endereco}</p>}
-                {perfilCompleto?.documento && <p className="text-gray-600 text-sm">CNPJ/CPF: {perfilCompleto.documento}</p>}
+                <h2 className="text-sm text-teal-700 uppercase">De</h2>
+                <p className="text-lg font-semibold text-emerald-900">{empresa}</p>
+                <p className="text-emerald-800">{telefone}</p>
+                {perfilCompleto?.email_empresa && <p className="text-emerald-800 text-sm">{perfilCompleto.email_empresa}</p>}
+                {perfilCompleto?.endereco && <p className="text-emerald-800 text-sm">{perfilCompleto.endereco}</p>}
+                {perfilCompleto?.documento && <p className="text-emerald-800 text-sm">CNPJ/CPF: {perfilCompleto.documento}</p>}
               </div>
 
               <div className="border-b pb-4">
-                <h2 className="text-sm text-gray-500 uppercase">Para</h2>
-                <p className="text-lg font-semibold text-gray-800">{cliente}</p>
-                {clienteTelefone && <p className="text-gray-600">📱 {clienteTelefone}</p>}
-                {email && <p className="text-gray-600 text-sm">{email}</p>}
-                {clienteDocumento && <p className="text-gray-600 text-sm">CPF/CNPJ: {clienteDocumento}</p>}
-                {clienteEndereco && <p className="text-gray-600 text-sm">{clienteEndereco}</p>}
+                <h2 className="text-sm text-teal-700 uppercase">Para</h2>
+                <p className="text-lg font-semibold text-emerald-900">{cliente}</p>
+                {clienteTelefone && <p className="text-emerald-800">📱 {clienteTelefone}</p>}
+                {email && <p className="text-emerald-800 text-sm">{email}</p>}
+                {clienteDocumento && <p className="text-emerald-800 text-sm">CPF/CNPJ: {clienteDocumento}</p>}
+                {clienteEndereco && <p className="text-emerald-800 text-sm">{clienteEndereco}</p>}
               </div>
 
               <div className="border-b pb-4">
-                <h2 className="text-sm text-gray-500 uppercase mb-3">Itens</h2>
+                <h2 className="text-sm text-teal-700 uppercase mb-3">Itens</h2>
                 <div className="space-y-3">
                   {itens.map((item, index) => {
                     const sub = calcularSubtotal(item);
                     const unidade = unidadeFinal(item);
                     return (
-                      <div key={index} className="pb-3 border-b border-gray-100 last:border-b-0">
-                        <div className="flex justify-between text-gray-700">
+                      <div key={index} className="pb-3 border-b border-emerald-100 last:border-b-0">
+                        <div className="flex justify-between text-emerald-800">
                           <span className="font-medium">{item.produto}</span>
-                          <span className="font-semibold text-gray-900">R$ {sub.toFixed(2)}</span>
+                          <span className="font-semibold text-emerald-950">R$ {sub.toFixed(2)}</span>
                         </div>
-                        {item.descricao && (<p className="text-sm text-gray-500 mt-1">{item.descricao}</p>)}
-                        <p className="text-xs text-gray-400 mt-1">{item.quantidade} {unidade} × R$ {Number(item.valor).toFixed(2)}</p>
+                        {item.descricao && (<p className="text-sm text-teal-700 mt-1">{item.descricao}</p>)}
+                        <p className="text-xs text-emerald-500 mt-1">{item.quantidade} {unidade} × R$ {Number(item.valor).toFixed(2)}</p>
                       </div>
                     );
                   })}
@@ -861,7 +861,7 @@ function toggleTemplate(texto) {
               </div>
 
               <div className="space-y-2 border-b pb-4">
-                <div className="flex justify-between text-gray-700">
+                <div className="flex justify-between text-emerald-800">
                   <span>Subtotal</span>
                   <span>R$ {subtotal.toFixed(2)}</span>
                 </div>
@@ -873,15 +873,15 @@ function toggleTemplate(texto) {
                 )}
               </div>
 
-              <div className="flex justify-between items-center bg-zinc-50 rounded-lg p-4">
-                <span className="text-lg font-semibold text-gray-700">Total</span>
-                <span className="text-2xl font-bold text-black">R$ {totalGeral.toFixed(2)}</span>
+              <div className="flex justify-between items-center bg-emerald-50 rounded-lg p-4">
+                <span className="text-lg font-semibold text-emerald-800">Total</span>
+                <span className="text-2xl font-bold text-emerald-950">R$ {totalGeral.toFixed(2)}</span>
               </div>
 
               {observacoes && observacoes.trim() !== "" && (
                 <div className="border-t pt-4">
-                  <h2 className="text-sm text-gray-500 uppercase mb-2">Observações</h2>
-                  <p className="text-gray-700 whitespace-pre-wrap">{observacoes}</p>
+                  <h2 className="text-sm text-teal-700 uppercase mb-2">Observações</h2>
+                  <p className="text-emerald-800 whitespace-pre-wrap">{observacoes}</p>
                 </div>
               )}
 
@@ -889,24 +889,24 @@ function toggleTemplate(texto) {
 
               <div className="space-y-3">
                 {tokenPublico && (
-                  <div className="bg-gradient-to-r from-zinc-50 to-zinc-50 border-2 border-zinc-200 rounded-xl p-4">
-                    <p className="text-xs text-gray-600 uppercase font-semibold mb-2">🔗 Link para o cliente aprovar</p>
+                  <div className="bg-gradient-to-r from-emerald-50 to-teal-50 border-2 border-emerald-200 rounded-xl p-4">
+                    <p className="text-xs text-emerald-800 uppercase font-semibold mb-2">🔗 Link para o cliente aprovar</p>
                     <div className="flex gap-2">
                       <input
                         type="text"
                         value={gerarLinkPublico()}
                         readOnly
-                        className="flex-1 bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm text-gray-700 font-mono truncate"
+                        className="flex-1 bg-white border border-emerald-200 rounded-lg px-3 py-2 text-sm text-emerald-800 font-mono truncate"
                         onFocus={(e) => e.target.select()}
                       />
                       <button
                         onClick={copiarLink}
-                        className="bg-black hover:bg-zinc-800 text-white font-semibold px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
                       >
                         📋 Copiar
                       </button>
                     </div>
-                    <p className="text-xs text-gray-500 mt-2">
+                    <p className="text-xs text-teal-700 mt-2">
                       💡 Envie este link ao cliente. Ele poderá visualizar e aprovar o orçamento diretamente!
                     </p>
                   </div>
@@ -922,10 +922,10 @@ function toggleTemplate(texto) {
                 )}
 
                 <div className="grid grid-cols-2 gap-3">
-                  <button onClick={baixarPDF} className="w-full bg-black hover:bg-zinc-800 text-white font-semibold py-3 rounded-lg transition-colors">
+                  <button onClick={baixarPDF} className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-lg transition-colors">
                     📄 Baixar PDF
                   </button>
-                  <button onClick={novoOrcamento} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 rounded-lg transition-colors">
+                  <button onClick={novoOrcamento} className="w-full bg-emerald-200 hover:bg-emerald-300 text-emerald-900 font-semibold py-3 rounded-lg transition-colors">
                     {modoEdicao ? "Voltar" : "Novo Orçamento"}
                   </button>
                 </div>
@@ -942,8 +942,8 @@ function toggleTemplate(texto) {
 export default function Home() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-gray-500">Carregando...</p>
+      <div className="min-h-screen bg-emerald-50 flex items-center justify-center">
+        <p className="text-teal-700">Carregando...</p>
       </div>
     }>
       <HomeContent />
