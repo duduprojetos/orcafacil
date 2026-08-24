@@ -179,7 +179,7 @@ export default function Dashboard() {
             </p>
             <Link
               href="/app"
-              className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+              className="inline-block bg-black hover:bg-zinc-800 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
             >
               ➕ Criar Primeiro Orçamento
             </Link>
@@ -199,7 +199,7 @@ export default function Dashboard() {
                 </p>
               </div>
 
-              <div className="app-card p-5 border-l-4 border-blue-500">
+              <div className="app-card p-5 border-l-4 border-black">
                 <p className="text-xs text-gray-500 uppercase font-semibold">📊 Ticket Médio</p>
                 <p className="text-2xl font-bold text-gray-800 mt-1">
                   R$ {ticketMedio.toFixed(2)}
@@ -261,7 +261,7 @@ export default function Dashboard() {
                     <div key={i} className="flex-1 flex flex-col items-center gap-2">
                       <div className="w-full flex-1 flex flex-col justify-end">
                         <div
-                          className="w-full bg-gradient-to-t from-blue-500 to-blue-400 rounded-t-lg transition-all hover:from-blue-600 hover:to-blue-500 relative group"
+                          className="w-full bg-gradient-to-t from-zinc-800 to-zinc-600 rounded-t-lg transition-all hover:from-black hover:to-zinc-800 relative group"
                           style={{ height: `${altura}%`, minHeight: mes.valor > 0 ? "4px" : "0" }}
                         >
                           {mes.valor > 0 && (
@@ -298,7 +298,7 @@ export default function Dashboard() {
                     {topClientes.map((cliente, i) => (
                       <div key={i} className="flex justify-between items-center pb-3 border-b border-gray-100 last:border-0">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-sm">
+                          <div className="w-8 h-8 rounded-full bg-zinc-100 text-black flex items-center justify-center font-bold text-sm">
                             {i + 1}
                           </div>
                           <div>
@@ -317,7 +317,7 @@ export default function Dashboard() {
               <div className="app-card p-6">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="app-title text-xl font-semibold">🕐 Últimos orçamentos</h2>
-                  <Link href="/orcamentos" className="text-xs text-blue-600 hover:text-blue-800 font-medium">
+                  <Link href="/orcamentos" className="text-xs text-black hover:text-zinc-600 font-medium">
                     Ver todos →
                   </Link>
                 </div>
@@ -342,7 +342,7 @@ export default function Dashboard() {
                           <p className="font-medium text-gray-800 truncate">{orc.cliente}</p>
                           <p className="text-xs text-gray-400">{formatarData(orc.created_at)}</p>
                         </div>
-                        <p className="font-bold text-blue-600 ml-3">R$ {Number(orc.total).toFixed(2)}</p>
+                        <p className="font-bold text-black ml-3">R$ {Number(orc.total).toFixed(2)}</p>
                       </Link>
                     );
                   })}

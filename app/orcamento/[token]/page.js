@@ -172,7 +172,7 @@ export default function OrcamentoPublico() {
         <div className="app-card overflow-hidden">
 
           {/* Cabeçalho */}
-          <div className="bg-[#16241c] text-[#fffdf7] p-6">
+          <div className="bg-black text-white p-6">
             <div className="flex justify-between items-start">
               <div className="flex items-center gap-4">
                 {perfil?.logo_url && (
@@ -183,10 +183,10 @@ export default function OrcamentoPublico() {
                   />
                 )}
                 <div>
-                  <h1 className="text-3xl font-bold text-[#fffdf7]">
+                  <h1 className="text-3xl font-bold text-white">
                     Orçamento #{formatarNumero(orcamento.numero_orcamento)}
                   </h1>
-                  <p className="text-blue-100 text-sm mt-1">
+                  <p className="text-white/60 text-sm mt-1">
                     {formatarDataBR(orcamento.created_at)}
                   </p>
                 </div>
@@ -270,9 +270,9 @@ export default function OrcamentoPublico() {
             </div>
 
             {/* Total destacado */}
-            <div className="rounded-2xl border-2 border-[#d9dccd] bg-[#edf4e8] p-5 flex justify-between items-center">
-              <span className="text-lg font-semibold text-gray-700">TOTAL</span>
-              <span className="text-3xl font-bold text-[#1f7a4d]">
+            <div className="rounded-xl border-2 border-black bg-zinc-50 p-5 flex justify-between items-center">
+              <span className="text-lg font-semibold text-zinc-700">TOTAL</span>
+              <span className="text-3xl font-bold text-black">
                 R$ {Number(orcamento.total).toFixed(2)}
               </span>
             </div>
@@ -294,7 +294,7 @@ export default function OrcamentoPublico() {
                   ? "bg-green-50 text-green-800 border border-green-200"
                   : mensagem.startsWith("❌")
                     ? "bg-red-50 text-red-800 border border-red-200"
-                    : "bg-blue-50 text-blue-800 border border-blue-200"
+                    : "bg-zinc-50 text-zinc-800 border border-zinc-200"
               }`}>
                 {mensagem}
               </div>
@@ -331,7 +331,7 @@ export default function OrcamentoPublico() {
           <div className="bg-gray-50 border-t p-4 text-center">
             <p className="text-xs text-gray-500">
               Este orçamento foi gerado com{" "}
-              <Link href="/" className="text-blue-600 font-semibold hover:underline">
+              <Link href="/" className="text-black font-semibold hover:underline">
                 OrçaFácil
               </Link>
             </p>
