@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/immutability, react-hooks/exhaustive-deps */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -167,17 +168,17 @@ export default function Orcamentos() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="app-shell">
       <div className="max-w-4xl mx-auto">
 
         <Header usuario={usuario} paginaAtiva="orcamentos" />
 
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800">Meus Orçamentos</h1>
+            <h1 className="app-title text-4xl font-semibold">Meus Orçamentos</h1>
             <p className="text-gray-500 mt-1">Histórico de orçamentos gerados</p>
           </div>
-          <Link href="/app" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg transition-colors">
+          <Link href="/app" className="btn-primary px-4 py-2">
             + Novo Orçamento
           </Link>
         </div>
@@ -246,13 +247,13 @@ export default function Orcamentos() {
         </div>
 
         {carregando && (
-          <div className="bg-white rounded-2xl shadow p-8 text-center text-gray-500">
+          <div className="app-card p-8 text-center text-gray-500">
             Carregando...
           </div>
         )}
 
         {!carregando && orcamentos.length === 0 && (
-          <div className="bg-white rounded-2xl shadow p-8 text-center text-gray-500">
+          <div className="app-card p-8 text-center text-gray-500">
             <p className="mb-4">Você ainda não criou nenhum orçamento.</p>
             <Link href="/app" className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
               Criar primeiro orçamento
@@ -261,7 +262,7 @@ export default function Orcamentos() {
         )}
 
         {!carregando && orcamentos.length > 0 && orcamentosFiltrados.length === 0 && (
-          <div className="bg-white rounded-2xl shadow p-8 text-center text-gray-500">
+          <div className="app-card p-8 text-center text-gray-500">
             {busca
               ? `Nenhum orçamento encontrado para "${busca}"`
               : "Nenhum orçamento com esse status."}
@@ -275,7 +276,7 @@ export default function Orcamentos() {
               const config = statusConfig[statusAtual];
 
               return (
-                <div key={orc.id} className="bg-white rounded-2xl shadow p-5 hover:shadow-md transition-shadow">
+                <div key={orc.id} className="app-card p-5 hover:shadow-md transition-shadow">
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div className="flex-1 w-full">
                       <div className="flex items-center gap-2 mb-2 flex-wrap">

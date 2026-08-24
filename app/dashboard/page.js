@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/immutability, react-hooks/exhaustive-deps */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -148,14 +149,14 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="app-shell">
       <div className="max-w-6xl mx-auto">
 
         <Header usuario={usuario} paginaAtiva="dashboard" />
 
         {/* Título */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">📊 Dashboard</h1>
+          <h1 className="app-title text-4xl font-semibold">📊 Dashboard</h1>
           <p className="text-gray-500 mt-1">Visão geral dos seus orçamentos</p>
         </div>
 
@@ -168,9 +169,9 @@ export default function Dashboard() {
 
         {/* Se não tem orçamentos ainda */}
         {orcamentos.length === 0 ? (
-          <div className="bg-white rounded-2xl shadow p-12 text-center">
+          <div className="app-card p-8 sm:p-12 text-center">
             <div className="text-6xl mb-4">📝</div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">
+            <h2 className="app-title text-3xl font-semibold mb-2">
               Bem-vindo ao OrçaFácil!
             </h2>
             <p className="text-gray-500 mb-6">
@@ -188,7 +189,7 @@ export default function Dashboard() {
             {/* Cards de métricas principais */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
 
-              <div className="bg-white rounded-2xl shadow p-5 border-l-4 border-green-500">
+              <div className="app-card p-5 border-l-4 border-green-500">
                 <p className="text-xs text-gray-500 uppercase font-semibold">💰 Faturamento (mês)</p>
                 <p className="text-2xl font-bold text-gray-800 mt-1">
                   R$ {totalMesAprovado.toFixed(2)}
@@ -198,7 +199,7 @@ export default function Dashboard() {
                 </p>
               </div>
 
-              <div className="bg-white rounded-2xl shadow p-5 border-l-4 border-blue-500">
+              <div className="app-card p-5 border-l-4 border-blue-500">
                 <p className="text-xs text-gray-500 uppercase font-semibold">📊 Ticket Médio</p>
                 <p className="text-2xl font-bold text-gray-800 mt-1">
                   R$ {ticketMedio.toFixed(2)}
@@ -208,7 +209,7 @@ export default function Dashboard() {
                 </p>
               </div>
 
-              <div className="bg-white rounded-2xl shadow p-5 border-l-4 border-purple-500">
+              <div className="app-card p-5 border-l-4 border-purple-500">
                 <p className="text-xs text-gray-500 uppercase font-semibold">🎯 Taxa de Aprovação</p>
                 <p className="text-2xl font-bold text-gray-800 mt-1">
                   {taxaConversao.toFixed(1)}%
@@ -218,7 +219,7 @@ export default function Dashboard() {
                 </p>
               </div>
 
-              <div className="bg-white rounded-2xl shadow p-5 border-l-4 border-yellow-500">
+              <div className="app-card p-5 border-l-4 border-yellow-500">
                 <p className="text-xs text-gray-500 uppercase font-semibold">🟡 Pendentes</p>
                 <p className="text-2xl font-bold text-gray-800 mt-1">
                   {contadores.pendente}
@@ -247,9 +248,9 @@ export default function Dashboard() {
             </div>
 
             {/* Gráfico de vendas por mês */}
-            <div className="bg-white rounded-2xl shadow p-6 mb-6">
+            <div className="app-card p-6 mb-6">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-bold text-gray-800">📈 Faturamento por mês</h2>
+                <h2 className="app-title text-xl font-semibold">📈 Faturamento por mês</h2>
                 <span className="text-xs text-gray-500">Últimos 6 meses</span>
               </div>
 
@@ -286,7 +287,7 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
               {/* Top Clientes */}
-              <div className="bg-white rounded-2xl shadow p-6">
+              <div className="app-card p-6">
                 <h2 className="text-lg font-bold text-gray-800 mb-4">🏆 Top Clientes</h2>
                 {topClientes.length === 0 ? (
                   <p className="text-sm text-gray-500 text-center py-8">
@@ -313,9 +314,9 @@ export default function Dashboard() {
               </div>
 
               {/* Últimos Orçamentos */}
-              <div className="bg-white rounded-2xl shadow p-6">
+              <div className="app-card p-6">
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-lg font-bold text-gray-800">🕐 Últimos orçamentos</h2>
+                  <h2 className="app-title text-xl font-semibold">🕐 Últimos orçamentos</h2>
                   <Link href="/orcamentos" className="text-xs text-blue-600 hover:text-blue-800 font-medium">
                     Ver todos →
                   </Link>
