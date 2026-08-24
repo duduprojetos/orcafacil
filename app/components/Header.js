@@ -21,6 +21,10 @@ export default function Header({ usuario, paginaAtiva = "" }) {
     { href: "/perfil", label: "Perfil", icone: "⚙️", key: "perfil" },
   ];
 
+    if (usuario?.email === "admin@edu.com") {
+  links.push({ href: "/admin", label: "Admin", icone: "🔒", key: "admin" });
+}
+
   return (
     <>
       {/* Barra superior */}
