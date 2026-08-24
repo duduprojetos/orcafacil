@@ -294,10 +294,20 @@ function toggleTemplate(texto) {
   const dataHoje = new Date().toLocaleDateString("pt-BR");
   const diasRestantes = calcularDiasRestantes(validade);
 
-  async function gerarOrcamento(e) {
+   async function gerarOrcamento(e) {
     e.preventDefault();
     setSalvando(true);
     setMensagem("");
+
+    const itemInvalido = itens.find(
+      (item) => Number(item.quantidade) <= 0 || Number(item.valor) < 0
+    );
+
+    if (itemInvalido) {
+      setMensagem("❌ Verifique os itens: quantidade deve ser maior que zero e valor não pode ser negativo.");
+      setSalvando(false);
+      return;
+    }
 
     let numeroAtual = numeroOrcamento;
     if (!modoEdicao) {
@@ -661,8 +671,7 @@ function toggleTemplate(texto) {
                       <div className="grid grid-cols-3 gap-2 mb-2">
                         <div>
                           <label className="block text-xs text-gray-500 mb-1">Qtd</label>
-                          <input type="number" step="0.01" placeholder="1" value={item.quantidade} onChange={(e) => atualizarItem(index, "quantidade", e.target.value)} required className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                        </div>
+                            <input type="number" step="0.01" min="0.01" placeholder="1" value={item.quantidade} onChange={(e) => atualizarItem(index, "quantidade", e.target.value)} required className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />                        </div>
                         <div>
                           <label className="block text-xs text-gray-500 mb-1">Unidade</label>
                           <select value={item.unidade} onChange={(e) => atualizarItem(index, "unidade", e.target.value)} className="w-full border border-gray-300 rounded-lg px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
@@ -671,7 +680,7 @@ function toggleTemplate(texto) {
                         </div>
                         <div>
                           <label className="block text-xs text-gray-500 mb-1">Valor unit. (R$)</label>
-                          <input type="number" step="0.01" placeholder="0,00" value={item.valor} onChange={(e) => atualizarItem(index, "valor", e.target.value)} required className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                          <input type="number" step="0.01" min="0" placeholder="0,00" value={item.valor} onChange={(e) => atualizarItem(index, "valor", e.target.value)} required className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
                         </div>
                       </div>
 
