@@ -110,21 +110,21 @@ export default function OrcamentoPublico() {
 
   if (carregando) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-gray-500">Carregando orçamento...</p>
+      <div className="min-h-screen bg-emerald-50 flex items-center justify-center">
+        <p className="text-teal-700">Carregando orçamento...</p>
       </div>
     );
   }
 
   if (naoEncontrado) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+      <div className="min-h-screen bg-emerald-50 flex items-center justify-center p-6">
         <div className="app-card p-12 max-w-md text-center">
           <div className="text-6xl mb-4">❌</div>
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">
+          <h1 className="text-2xl font-bold text-emerald-900 mb-2">
             Orçamento não encontrado
           </h1>
-          <p className="text-gray-500">
+          <p className="text-teal-700">
             O link pode estar incorreto ou o orçamento foi removido.
           </p>
         </div>
@@ -172,7 +172,7 @@ export default function OrcamentoPublico() {
         <div className="app-card overflow-hidden">
 
           {/* Cabeçalho */}
-          <div className="bg-black text-white p-6">
+          <div className="bg-gradient-to-br from-emerald-600 to-teal-700 text-white p-6">
             <div className="flex justify-between items-start">
               <div className="flex items-center gap-4">
                 {perfil?.logo_url && (
@@ -199,22 +199,22 @@ export default function OrcamentoPublico() {
 
             {/* DE */}
             <div className="border-b pb-4">
-              <h2 className="text-xs text-gray-500 uppercase font-semibold mb-2">De</h2>
-              <p className="text-lg font-bold text-gray-800">{orcamento.empresa}</p>
-              {orcamento.telefone && <p className="text-gray-600 text-sm">📱 {orcamento.telefone}</p>}
-              {perfil?.email_empresa && <p className="text-gray-600 text-sm">✉️ {perfil.email_empresa}</p>}
-              {perfil?.endereco && <p className="text-gray-600 text-sm">📍 {perfil.endereco}</p>}
-              {perfil?.documento && <p className="text-gray-600 text-sm">🆔 CNPJ/CPF: {perfil.documento}</p>}
+              <h2 className="text-xs text-teal-700 uppercase font-semibold mb-2">De</h2>
+              <p className="text-lg font-bold text-emerald-900">{orcamento.empresa}</p>
+              {orcamento.telefone && <p className="text-emerald-800 text-sm">📱 {orcamento.telefone}</p>}
+              {perfil?.email_empresa && <p className="text-emerald-800 text-sm">✉️ {perfil.email_empresa}</p>}
+              {perfil?.endereco && <p className="text-emerald-800 text-sm">📍 {perfil.endereco}</p>}
+              {perfil?.documento && <p className="text-emerald-800 text-sm">🆔 CNPJ/CPF: {perfil.documento}</p>}
             </div>
 
             {/* PARA */}
             <div className="border-b pb-4">
-              <h2 className="text-xs text-gray-500 uppercase font-semibold mb-2">Para</h2>
-              <p className="text-lg font-bold text-gray-800">{orcamento.cliente}</p>
-              {orcamento.cliente_telefone && <p className="text-gray-600 text-sm">📱 {orcamento.cliente_telefone}</p>}
-              {orcamento.email && <p className="text-gray-600 text-sm">✉️ {orcamento.email}</p>}
-              {orcamento.cliente_documento && <p className="text-gray-600 text-sm">🆔 {orcamento.cliente_documento}</p>}
-              {orcamento.cliente_endereco && <p className="text-gray-600 text-sm">📍 {orcamento.cliente_endereco}</p>}
+              <h2 className="text-xs text-teal-700 uppercase font-semibold mb-2">Para</h2>
+              <p className="text-lg font-bold text-emerald-900">{orcamento.cliente}</p>
+              {orcamento.cliente_telefone && <p className="text-emerald-800 text-sm">📱 {orcamento.cliente_telefone}</p>}
+              {orcamento.email && <p className="text-emerald-800 text-sm">✉️ {orcamento.email}</p>}
+              {orcamento.cliente_documento && <p className="text-emerald-800 text-sm">🆔 {orcamento.cliente_documento}</p>}
+              {orcamento.cliente_endereco && <p className="text-emerald-800 text-sm">📍 {orcamento.cliente_endereco}</p>}
             </div>
 
             {/* Validade */}
@@ -228,21 +228,21 @@ export default function OrcamentoPublico() {
 
             {/* Itens */}
             <div className="border-b pb-4">
-              <h2 className="text-xs text-gray-500 uppercase font-semibold mb-3">Itens</h2>
+              <h2 className="text-xs text-teal-700 uppercase font-semibold mb-3">Itens</h2>
               <div className="space-y-3">
                 {(orcamento.itens || []).map((item, i) => {
                   const sub = calcularSubtotal(item);
                   const unidade = unidadeFinal(item);
                   return (
-                    <div key={i} className="pb-3 border-b border-gray-100 last:border-0">
-                      <div className="flex justify-between text-gray-700">
+                    <div key={i} className="pb-3 border-b border-emerald-100 last:border-0">
+                      <div className="flex justify-between text-emerald-800">
                         <span className="font-medium">{item.produto}</span>
-                        <span className="font-bold text-gray-900">R$ {sub.toFixed(2)}</span>
+                        <span className="font-bold text-emerald-950">R$ {sub.toFixed(2)}</span>
                       </div>
                       {item.descricao && (
-                        <p className="text-sm text-gray-500 mt-1">{item.descricao}</p>
+                        <p className="text-sm text-teal-700 mt-1">{item.descricao}</p>
                       )}
-                      <p className="text-xs text-gray-400 mt-1">
+                      <p className="text-xs text-emerald-500 mt-1">
                         {item.quantidade} {unidade} × R$ {Number(item.valor).toFixed(2)}
                       </p>
                     </div>
@@ -253,7 +253,7 @@ export default function OrcamentoPublico() {
 
             {/* Totais */}
             <div className="space-y-2">
-              <div className="flex justify-between text-gray-700">
+              <div className="flex justify-between text-emerald-800">
                 <span>Subtotal</span>
                 <span>R$ {subtotal.toFixed(2)}</span>
               </div>
@@ -270,9 +270,9 @@ export default function OrcamentoPublico() {
             </div>
 
             {/* Total destacado */}
-            <div className="rounded-xl border-2 border-black bg-zinc-50 p-5 flex justify-between items-center">
-              <span className="text-lg font-semibold text-zinc-700">TOTAL</span>
-              <span className="text-3xl font-bold text-black">
+            <div className="rounded-xl border-2 border-emerald-600 bg-emerald-50 p-5 flex justify-between items-center">
+              <span className="text-lg font-semibold text-emerald-800">TOTAL</span>
+              <span className="text-3xl font-bold text-emerald-950">
                 R$ {Number(orcamento.total).toFixed(2)}
               </span>
             </div>
@@ -280,8 +280,8 @@ export default function OrcamentoPublico() {
             {/* Observações */}
             {orcamento.observacoes && (
               <div className="border-t pt-4">
-                <h2 className="text-xs text-gray-500 uppercase font-semibold mb-2">Observações</h2>
-                <p className="text-gray-700 whitespace-pre-wrap text-sm bg-gray-50 rounded-lg p-3">
+                <h2 className="text-xs text-teal-700 uppercase font-semibold mb-2">Observações</h2>
+                <p className="text-emerald-800 whitespace-pre-wrap text-sm bg-emerald-50 rounded-lg p-3">
                   {orcamento.observacoes}
                 </p>
               </div>
@@ -294,7 +294,7 @@ export default function OrcamentoPublico() {
                   ? "bg-green-50 text-green-800 border border-green-200"
                   : mensagem.startsWith("❌")
                     ? "bg-red-50 text-red-800 border border-red-200"
-                    : "bg-zinc-50 text-zinc-800 border border-zinc-200"
+                    : "bg-emerald-50 text-emerald-900 border border-emerald-200"
               }`}>
                 {mensagem}
               </div>
@@ -303,7 +303,7 @@ export default function OrcamentoPublico() {
             {/* Botões de ação (só se AINDA não respondeu) */}
             {!jaRespondido && (
               <div className="border-t pt-6">
-                <p className="text-center text-sm text-gray-600 mb-4 font-medium">
+                <p className="text-center text-sm text-emerald-800 mb-4 font-medium">
                   O que você deseja fazer com este orçamento?
                 </p>
                 <div className="grid grid-cols-2 gap-3">
@@ -328,10 +328,10 @@ export default function OrcamentoPublico() {
           </div>
 
           {/* Rodapé */}
-          <div className="bg-gray-50 border-t p-4 text-center">
-            <p className="text-xs text-gray-500">
+          <div className="bg-emerald-50 border-t p-4 text-center">
+            <p className="text-xs text-teal-700">
               Este orçamento foi gerado com{" "}
-              <Link href="/" className="text-black font-semibold hover:underline">
+              <Link href="/" className="text-emerald-950 font-semibold hover:underline">
                 OrçaFácil
               </Link>
             </p>

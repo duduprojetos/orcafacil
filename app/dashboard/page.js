@@ -142,8 +142,8 @@ export default function Dashboard() {
 
   if (carregando) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-gray-500">Carregando dashboard...</p>
+      <div className="min-h-screen bg-emerald-50 flex items-center justify-center">
+        <p className="text-teal-700">Carregando dashboard...</p>
       </div>
     );
   }
@@ -157,7 +157,7 @@ export default function Dashboard() {
         {/* Título */}
         <div className="mb-8">
           <h1 className="app-title text-4xl font-semibold">📊 Dashboard</h1>
-          <p className="text-gray-500 mt-1">Visão geral dos seus orçamentos</p>
+          <p className="text-teal-700 mt-1">Visão geral dos seus orçamentos</p>
         </div>
 
         {/* Aviso se não tem perfil */}
@@ -174,12 +174,12 @@ export default function Dashboard() {
             <h2 className="app-title text-3xl font-semibold mb-2">
               Bem-vindo ao OrçaFácil!
             </h2>
-            <p className="text-gray-500 mb-6">
+            <p className="text-teal-700 mb-6">
               Você ainda não criou nenhum orçamento. Que tal começar agora?
             </p>
             <Link
               href="/app"
-              className="inline-block bg-black hover:bg-zinc-800 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+              className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
             >
               ➕ Criar Primeiro Orçamento
             </Link>
@@ -190,41 +190,41 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
 
               <div className="app-card p-5 border-l-4 border-green-500">
-                <p className="text-xs text-gray-500 uppercase font-semibold">💰 Faturamento (mês)</p>
-                <p className="text-2xl font-bold text-gray-800 mt-1">
+                <p className="text-xs text-teal-700 uppercase font-semibold">💰 Faturamento (mês)</p>
+                <p className="text-2xl font-bold text-emerald-900 mt-1">
                   R$ {totalMesAprovado.toFixed(2)}
                 </p>
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-xs text-emerald-500 mt-1">
                   Total aprovado no mês
                 </p>
               </div>
 
-              <div className="app-card p-5 border-l-4 border-black">
-                <p className="text-xs text-gray-500 uppercase font-semibold">📊 Ticket Médio</p>
-                <p className="text-2xl font-bold text-gray-800 mt-1">
+              <div className="app-card p-5 border-l-4 border-emerald-600">
+                <p className="text-xs text-teal-700 uppercase font-semibold">📊 Ticket Médio</p>
+                <p className="text-2xl font-bold text-emerald-900 mt-1">
                   R$ {ticketMedio.toFixed(2)}
                 </p>
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-xs text-emerald-500 mt-1">
                   Média dos aprovados
                 </p>
               </div>
 
               <div className="app-card p-5 border-l-4 border-purple-500">
-                <p className="text-xs text-gray-500 uppercase font-semibold">🎯 Taxa de Aprovação</p>
-                <p className="text-2xl font-bold text-gray-800 mt-1">
+                <p className="text-xs text-teal-700 uppercase font-semibold">🎯 Taxa de Aprovação</p>
+                <p className="text-2xl font-bold text-emerald-900 mt-1">
                   {taxaConversao.toFixed(1)}%
                 </p>
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-xs text-emerald-500 mt-1">
                   {contadores.aprovado} de {contadores.total} orçamentos
                 </p>
               </div>
 
               <div className="app-card p-5 border-l-4 border-yellow-500">
-                <p className="text-xs text-gray-500 uppercase font-semibold">🟡 Pendentes</p>
-                <p className="text-2xl font-bold text-gray-800 mt-1">
+                <p className="text-xs text-teal-700 uppercase font-semibold">🟡 Pendentes</p>
+                <p className="text-2xl font-bold text-emerald-900 mt-1">
                   {contadores.pendente}
                 </p>
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-xs text-emerald-500 mt-1">
                   Aguardando resposta
                 </p>
               </div>
@@ -251,7 +251,7 @@ export default function Dashboard() {
             <div className="app-card p-6 mb-6">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="app-title text-xl font-semibold">📈 Faturamento por mês</h2>
-                <span className="text-xs text-gray-500">Últimos 6 meses</span>
+                <span className="text-xs text-teal-700">Últimos 6 meses</span>
               </div>
 
               <div className="flex items-end justify-between gap-2 h-48">
@@ -261,12 +261,12 @@ export default function Dashboard() {
                     <div key={i} className="flex-1 flex flex-col items-center gap-2">
                       <div className="w-full flex-1 flex flex-col justify-end">
                         <div
-                          className="w-full bg-gradient-to-t from-zinc-800 to-zinc-600 rounded-t-lg transition-all hover:from-black hover:to-zinc-800 relative group"
+                          className="w-full bg-gradient-to-t from-emerald-500 to-teal-600 rounded-t-lg transition-all hover:from-emerald-600 hover:to-teal-700 relative group"
                           style={{ height: `${altura}%`, minHeight: mes.valor > 0 ? "4px" : "0" }}
                         >
                           {mes.valor > 0 && (
                             <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-                              <span className="bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                              <span className="bg-emerald-600 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
                                 R$ {mes.valor.toFixed(0)}
                               </span>
                             </div>
@@ -274,8 +274,8 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="text-center">
-                        <p className="text-xs font-medium text-gray-600">{mes.mes}</p>
-                        <p className="text-xs text-gray-400">{mes.count}</p>
+                        <p className="text-xs font-medium text-emerald-800">{mes.mes}</p>
+                        <p className="text-xs text-emerald-500">{mes.count}</p>
                       </div>
                     </div>
                   );
@@ -288,22 +288,22 @@ export default function Dashboard() {
 
               {/* Top Clientes */}
               <div className="app-card p-6">
-                <h2 className="text-lg font-bold text-gray-800 mb-4">🏆 Top Clientes</h2>
+                <h2 className="text-lg font-bold text-emerald-900 mb-4">🏆 Top Clientes</h2>
                 {topClientes.length === 0 ? (
-                  <p className="text-sm text-gray-500 text-center py-8">
+                  <p className="text-sm text-teal-700 text-center py-8">
                     Nenhum orçamento aprovado ainda
                   </p>
                 ) : (
                   <div className="space-y-3">
                     {topClientes.map((cliente, i) => (
-                      <div key={i} className="flex justify-between items-center pb-3 border-b border-gray-100 last:border-0">
+                      <div key={i} className="flex justify-between items-center pb-3 border-b border-emerald-100 last:border-0">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-zinc-100 text-black flex items-center justify-center font-bold text-sm">
+                          <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-950 flex items-center justify-center font-bold text-sm">
                             {i + 1}
                           </div>
                           <div>
-                            <p className="font-medium text-gray-800">{cliente.nome}</p>
-                            <p className="text-xs text-gray-500">{cliente.count} {cliente.count === 1 ? "orçamento" : "orçamentos"}</p>
+                            <p className="font-medium text-emerald-900">{cliente.nome}</p>
+                            <p className="text-xs text-teal-700">{cliente.count} {cliente.count === 1 ? "orçamento" : "orçamentos"}</p>
                           </div>
                         </div>
                         <p className="font-bold text-green-600">R$ {cliente.total.toFixed(2)}</p>
@@ -317,7 +317,7 @@ export default function Dashboard() {
               <div className="app-card p-6">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="app-title text-xl font-semibold">🕐 Últimos orçamentos</h2>
-                  <Link href="/orcamentos" className="text-xs text-black hover:text-zinc-600 font-medium">
+                  <Link href="/orcamentos" className="text-xs text-emerald-950 hover:text-emerald-800 font-medium">
                     Ver todos →
                   </Link>
                 </div>
@@ -328,21 +328,21 @@ export default function Dashboard() {
                       <Link
                         href={`/app?editar=${orc.id}`}
                         key={orc.id}
-                        className="flex justify-between items-center pb-3 border-b border-gray-100 last:border-0 hover:bg-gray-50 -mx-2 px-2 rounded transition-colors"
+                        className="flex justify-between items-center pb-3 border-b border-emerald-100 last:border-0 hover:bg-emerald-50 -mx-2 px-2 rounded transition-colors"
                       >
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">
+                            <span className="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">
                               #{String(orc.numero_orcamento || 0).padStart(4, "0")}
                             </span>
                             <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${config.cor}`}>
                               {config.icone} {config.label}
                             </span>
                           </div>
-                          <p className="font-medium text-gray-800 truncate">{orc.cliente}</p>
-                          <p className="text-xs text-gray-400">{formatarData(orc.created_at)}</p>
+                          <p className="font-medium text-emerald-900 truncate">{orc.cliente}</p>
+                          <p className="text-xs text-emerald-500">{formatarData(orc.created_at)}</p>
                         </div>
-                        <p className="font-bold text-black ml-3">R$ {Number(orc.total).toFixed(2)}</p>
+                        <p className="font-bold text-emerald-950 ml-3">R$ {Number(orc.total).toFixed(2)}</p>
                       </Link>
                     );
                   })}

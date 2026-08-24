@@ -101,7 +101,7 @@ export default function AdminPrivacidade() {
           </p>
           <Link
             href="/login"
-            className="inline-block bg-gradient-to-r from-green-400 to-emerald-500 text-black font-semibold px-5 py-2.5 rounded-lg"
+            className="inline-block bg-gradient-to-r from-emerald-400 to-teal-500 text-black font-semibold px-5 py-2.5 rounded-lg"
           >
             Ir para o login
           </Link>
@@ -117,7 +117,7 @@ export default function AdminPrivacidade() {
       <header className="border-b border-white/5 sticky top-0 bg-[#0a0a0a]/80 backdrop-blur-xl z-50">
         <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg flex items-center justify-center text-black font-bold text-lg">
+            <div className="w-9 h-9 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-lg flex items-center justify-center text-black font-bold text-lg">
               O
             </div>
             <span className="text-xl font-bold">OrçaFácil</span>

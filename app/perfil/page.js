@@ -208,8 +208,8 @@ export default function Perfil() {
 
   if (carregando) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-gray-500">Carregando...</p>
+      <div className="min-h-screen bg-emerald-50 flex items-center justify-center">
+        <p className="text-teal-700">Carregando...</p>
       </div>
     );
   }
@@ -225,7 +225,7 @@ export default function Perfil() {
 
           <div className="text-center mb-8">
             <h1 className="app-title text-4xl font-semibold">⚙️ Meu Perfil</h1>
-            <p className="text-gray-500 mt-2">
+            <p className="text-teal-700 mt-2">
               Configure os dados da sua empresa uma vez só. Eles serão preenchidos automaticamente nos orçamentos.
             </p>
           </div>
@@ -234,17 +234,17 @@ export default function Perfil() {
 
             {/* Logo */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-emerald-800 mb-2">
                 Logo da empresa
-                <span className="text-xs text-gray-400 font-normal ml-2">(opcional)</span>
+                <span className="text-xs text-emerald-500 font-normal ml-2">(opcional)</span>
               </label>
 
-              <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-black transition-colors">
+              <div className="border-2 border-dashed border-emerald-300 rounded-xl p-6 text-center hover:border-emerald-500 transition-colors">
                 {logoUrl ? (
                   <div className="space-y-3">
                     <img src={logoUrl} alt="Logo" className="max-h-32 mx-auto object-contain" />
                     <div className="flex gap-2 justify-center">
-                      <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploadandoLogo} className="text-sm bg-zinc-100 hover:bg-zinc-200 text-black font-medium px-4 py-2 rounded-lg transition-colors disabled:opacity-50">
+                      <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploadandoLogo} className="text-sm bg-emerald-100 hover:bg-emerald-200 text-emerald-950 font-medium px-4 py-2 rounded-lg transition-colors disabled:opacity-50">
                         {uploadandoLogo ? "Enviando..." : "🔄 Trocar logo"}
                       </button>
                       <button type="button" onClick={removerLogo} className="text-sm bg-red-100 hover:bg-red-200 text-red-700 font-medium px-4 py-2 rounded-lg transition-colors">
@@ -255,11 +255,11 @@ export default function Perfil() {
                 ) : (
                   <div className="space-y-2">
                     <div className="text-4xl">🖼️</div>
-                    <p className="text-gray-600 text-sm">Adicione uma logo para aparecer nos seus PDFs</p>
-                    <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploadandoLogo} className="bg-black hover:bg-zinc-800 text-white font-medium px-5 py-2 rounded-lg transition-colors disabled:opacity-50">
+                    <p className="text-emerald-800 text-sm">Adicione uma logo para aparecer nos seus PDFs</p>
+                    <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploadandoLogo} className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-5 py-2 rounded-lg transition-colors disabled:opacity-50">
                       {uploadandoLogo ? "Enviando..." : "📤 Escolher imagem"}
                     </button>
-                    <p className="text-xs text-gray-400">PNG, JPG ou WEBP · Máx 2MB</p>
+                    <p className="text-xs text-emerald-500">PNG, JPG ou WEBP · Máx 2MB</p>
                   </div>
                 )}
                 <input ref={fileInputRef} type="file" accept="image/png,image/jpeg,image/jpg,image/webp" onChange={(e) => fazerUploadLogo(e.target.files?.[0])} className="hidden" />
@@ -267,41 +267,41 @@ export default function Perfil() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Nome da empresa <span className="text-red-500">*</span></label>
-              <input type="text" placeholder="Ex: Reformas do João" value={nomeEmpresa} onChange={(e) => setNomeEmpresa(e.target.value)} required className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
+              <label className="block text-sm font-medium text-emerald-800 mb-2">Nome da empresa <span className="text-red-500">*</span></label>
+              <input type="text" placeholder="Ex: Reformas do João" value={nomeEmpresa} onChange={(e) => setNomeEmpresa(e.target.value)} required className="w-full border border-emerald-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Telefone</label>
-              <input type="text" placeholder="(11) 99999-9999" value={telefone} onChange={(e) => setTelefone(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
+              <label className="block text-sm font-medium text-emerald-800 mb-2">Telefone</label>
+              <input type="text" placeholder="(11) 99999-9999" value={telefone} onChange={(e) => setTelefone(e.target.value)} className="w-full border border-emerald-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">E-mail da empresa</label>
-              <input type="email" placeholder="contato@suaempresa.com" value={emailEmpresa} onChange={(e) => setEmailEmpresa(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
+              <label className="block text-sm font-medium text-emerald-800 mb-2">E-mail da empresa</label>
+              <input type="email" placeholder="contato@suaempresa.com" value={emailEmpresa} onChange={(e) => setEmailEmpresa(e.target.value)} className="w-full border border-emerald-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Endereço</label>
-              <input type="text" placeholder="Rua, número, bairro, cidade" value={endereco} onChange={(e) => setEndereco(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
+              <label className="block text-sm font-medium text-emerald-800 mb-2">Endereço</label>
+              <input type="text" placeholder="Rua, número, bairro, cidade" value={endereco} onChange={(e) => setEndereco(e.target.value)} className="w-full border border-emerald-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">CNPJ / CPF</label>
-              <input type="text" placeholder="00.000.000/0000-00 ou 000.000.000-00" value={documento} onChange={(e) => setDocumento(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black" />
+              <label className="block text-sm font-medium text-emerald-800 mb-2">CNPJ / CPF</label>
+              <input type="text" placeholder="00.000.000/0000-00 ou 000.000.000-00" value={documento} onChange={(e) => setDocumento(e.target.value)} className="w-full border border-emerald-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
             </div>
 
             {mensagem && (
               <div className={`text-center text-sm py-3 rounded-lg ${
                 mensagem.startsWith("✅") ? "bg-green-50 text-green-700"
                   : mensagem.startsWith("❌") ? "bg-red-50 text-red-700"
-                    : "bg-zinc-50 text-black"
+                    : "bg-emerald-50 text-emerald-950"
               }`}>
                 {mensagem}
               </div>
             )}
 
-            <button type="submit" disabled={salvando} className="w-full bg-black hover:bg-zinc-800 text-white font-semibold py-3 rounded-lg transition-colors disabled:opacity-50">
+            <button type="submit" disabled={salvando} className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-lg transition-colors disabled:opacity-50">
               {salvando ? "Salvando..." : perfilExiste ? "Atualizar Perfil" : "Salvar Perfil"}
             </button>
           </form>
@@ -313,13 +313,13 @@ export default function Perfil() {
 
           <div className="mb-6">
             <h2 className="app-title text-3xl font-semibold">🔐 Segurança da Conta</h2>
-            <p className="text-gray-500 mt-1 text-sm">
+            <p className="text-teal-700 mt-1 text-sm">
               Altere a senha da sua conta
             </p>
           </div>
 
-          <div className="border border-gray-200 rounded-xl p-5">
-            <h3 className="font-semibold text-gray-800 mb-3">🔒 Alterar Senha</h3>
+          <div className="border border-emerald-200 rounded-xl p-5">
+            <h3 className="font-semibold text-emerald-900 mb-3">🔒 Alterar Senha</h3>
 
             <form onSubmit={alterarSenha} className="space-y-3">
               <input
@@ -328,7 +328,7 @@ export default function Perfil() {
                 value={novaSenha}
                 onChange={(e) => setNovaSenha(e.target.value)}
                 minLength={6}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full border border-emerald-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
 
               <input
@@ -337,7 +337,7 @@ export default function Perfil() {
                 value={confirmarSenha}
                 onChange={(e) => setConfirmarSenha(e.target.value)}
                 minLength={6}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full border border-emerald-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
 
               {mensagemSenha && (
@@ -351,13 +351,13 @@ export default function Perfil() {
               <button
                 type="submit"
                 disabled={alterandoSenha}
-                className="w-full bg-black hover:bg-zinc-800 text-white font-medium py-2 rounded-lg text-sm transition-colors disabled:opacity-50"
+                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 rounded-lg text-sm transition-colors disabled:opacity-50"
               >
                 {alterandoSenha ? "Alterando..." : "Alterar Senha"}
               </button>
             </form>
 
-            <p className="text-xs text-gray-400 mt-3">
+            <p className="text-xs text-emerald-500 mt-3">
               💡 Após alterar, você continuará logado normalmente.
             </p>
           </div>

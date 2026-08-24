@@ -30,12 +30,12 @@ export default function Header({ usuario, paginaAtiva = "" }) {
       <div className="app-card sticky top-4 z-30 mb-8 px-4 py-3">
         <div className="flex items-center justify-between gap-3">
           <Link href="/dashboard" className="flex min-w-0 items-center gap-3">
-            <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-black text-white shadow-sm font-bold">
+            <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-sm font-bold">
               O
             </div>
             <div className="min-w-0">
               <p className="app-title text-xl font-bold leading-none">OrçaFácil</p>
-              <p className="truncate text-xs text-zinc-500">{usuario?.email}</p>
+              <p className="truncate text-xs text-teal-700">{usuario?.email}</p>
             </div>
           </Link>
 
@@ -48,8 +48,8 @@ export default function Header({ usuario, paginaAtiva = "" }) {
                   href={link.href}
                   className={`rounded-full px-4 py-2 text-sm font-semibold ${
                     ativo
-                      ? "bg-black text-white shadow-sm"
-                      : "text-zinc-500 hover:bg-zinc-100 hover:text-black"
+                      ? "bg-emerald-600 text-white shadow-sm"
+                      : "text-teal-700 hover:bg-emerald-100 hover:text-emerald-700"
                   }`}
                 >
                   <span className="mr-1.5">{link.icone}</span>{link.label}
@@ -58,7 +58,7 @@ export default function Header({ usuario, paginaAtiva = "" }) {
             })}
             <button
               onClick={sair}
-              className="ml-1 rounded-full border border-zinc-200 bg-zinc-50 px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-100"
+              className="ml-1 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-800 hover:bg-emerald-100"
             >
               Sair
             </button>
@@ -66,7 +66,7 @@ export default function Header({ usuario, paginaAtiva = "" }) {
 
           <button
             onClick={() => setMenuAberto(!menuAberto)}
-            className="grid h-11 w-11 place-items-center rounded-xl border border-zinc-200 bg-white text-black shadow-sm md:hidden"
+            className="grid h-11 w-11 place-items-center rounded-xl border border-emerald-200 bg-white text-emerald-950 shadow-sm md:hidden"
             aria-label="Menu"
           >
             <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -83,14 +83,14 @@ export default function Header({ usuario, paginaAtiva = "" }) {
       {menuAberto && (
         <>
           <div
-            className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm md:hidden"
+            className="fixed inset-0 z-40 bg-emerald-950/40 backdrop-blur-sm md:hidden"
             onClick={() => setMenuAberto(false)}
           />
 
-          <div className="fixed bottom-0 right-0 top-0 z-50 flex w-80 max-w-[88vw] flex-col border-l border-zinc-200 bg-white shadow-2xl md:hidden">
-            <div className="relative overflow-hidden bg-black p-6 text-white">
+          <div className="fixed bottom-0 right-0 top-0 z-50 flex w-80 max-w-[88vw] flex-col border-l border-emerald-200 bg-white shadow-2xl md:hidden">
+            <div className="relative overflow-hidden bg-gradient-to-br from-emerald-600 to-teal-700 p-6 text-white">
               <div className="relative mb-5 flex items-start justify-between">
-                <div className="grid h-12 w-12 place-items-center rounded-xl bg-white text-black font-bold">
+                <div className="grid h-12 w-12 place-items-center rounded-xl bg-white text-emerald-800 font-bold">
                   O
                 </div>
                 <button onClick={() => setMenuAberto(false)} className="text-white/70 hover:text-white">
@@ -111,8 +111,8 @@ export default function Header({ usuario, paginaAtiva = "" }) {
                   onClick={() => setMenuAberto(false)}
                   className={`flex items-center gap-3 rounded-xl px-4 py-3 font-semibold ${
                     paginaAtiva === link.key
-                      ? "bg-black text-white"
-                      : "text-zinc-700 hover:bg-zinc-100"
+                      ? "bg-emerald-600 text-white"
+                      : "text-emerald-800 hover:bg-emerald-100"
                   }`}
                 >
                   <span className="text-xl">{link.icone}</span>
@@ -121,10 +121,10 @@ export default function Header({ usuario, paginaAtiva = "" }) {
               ))}
             </nav>
 
-            <div className="border-t border-zinc-200 p-4">
+            <div className="border-t border-emerald-200 p-4">
               <button
                 onClick={sair}
-                className="flex w-full items-center justify-center gap-3 rounded-xl bg-zinc-100 px-4 py-3 font-bold text-zinc-700 hover:bg-zinc-200"
+                className="flex w-full items-center justify-center gap-3 rounded-xl bg-emerald-100 px-4 py-3 font-bold text-emerald-800 hover:bg-emerald-200"
               >
                 <span className="text-xl">🚪</span>
                 Sair

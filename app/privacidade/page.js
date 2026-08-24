@@ -51,7 +51,7 @@ export default function Privacidade() {
       <header className="border-b border-white/5 sticky top-0 bg-[#0a0a0a]/80 backdrop-blur-xl z-50">
         <div className="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg flex items-center justify-center text-black font-bold text-lg shadow-lg shadow-green-500/30">
+            <div className="w-9 h-9 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-lg flex items-center justify-center text-black font-bold text-lg shadow-lg shadow-green-500/30">
               O
             </div>
             <span className="text-xl font-bold text-white">OrçaFácil</span>
@@ -237,7 +237,7 @@ export default function Privacidade() {
               <button
                 type="submit"
                 disabled={enviando}
-                className="bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-300 hover:to-emerald-400 text-black font-semibold px-6 py-3 rounded-lg transition-all shadow-lg shadow-green-500/30 disabled:opacity-50"
+                className="bg-gradient-to-r from-emerald-400 to-teal-500 hover:from-emerald-300 hover:to-teal-400 text-black font-semibold px-6 py-3 rounded-lg transition-all shadow-lg shadow-green-500/30 disabled:opacity-50"
               >
                 {enviando ? "Enviando..." : "Enviar solicitação"}
               </button>
